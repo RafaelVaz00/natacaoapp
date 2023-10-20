@@ -1,16 +1,5 @@
-# natacaoapp
+Caso haja algum problema do sdk do Dart não ser reconhecido ao clonar o projeto->
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+File->Settings->Language & Framework->Flutter
+Choose flutter SDK path: the first time we install flutter, we choose the location where the flutter should be installed. Choose this location.
+Click OK and the android studio will refresh. Carry on if the problem is solved.
