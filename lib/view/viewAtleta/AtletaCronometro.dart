@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/HomeAtleta.dart';
+import 'package:natacaoapp/view/viewAtleta/HomeAtleta.dart';
 
-import 'AtletaRegistroTreino.dart';
+import '../viewAtleta/AtletaRegistroTreino.dart';
 
 class AtletaCronometro extends StatelessWidget {
   const AtletaCronometro({super.key});
@@ -118,9 +118,9 @@ class _NavigationState extends State<Navigation> {
   void iniciar(){
     iniciado = true;
     tempo = Timer.periodic(
-            (Duration(microseconds: 1)),
+            (Duration(milliseconds: 1)),
             (timer) {
-             int millisegundosInterno = millisegundos + 1;
+             int millisegundosInterno = millisegundos + 3;
              int segundosInterno = segundos;
              int minutosInterno = minutos;
              int horasInterno = horas;

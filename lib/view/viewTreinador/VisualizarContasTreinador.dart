@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/CriarContaAdm.dart';
-import 'package:natacaoapp/view/VisualizarContasAdm.dart';
 
-class HomeAdm extends StatelessWidget {
-  const HomeAdm({super.key});
+class VisualizarContasTreinador extends StatelessWidget {
+  const VisualizarContasTreinador({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class _PerfilSuperior extends State<PerfilSuperior> {
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            colors: [Color(0xFF181818), Color(0xFFFCC9AC)],
+            colors: [Color(0xFF181818), Color(0xFFFCACAC)],
           )),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -68,6 +66,71 @@ class _PerfilSuperior extends State<PerfilSuperior> {
   }
 }
 
+class PessoaContaItem {
+
+  final String name;
+
+  PessoaContaItem(this.name);
+
+}
+
+class ListaPessoas extends StatefulWidget{
+  @override
+  _ListaContasState createState() => _ListaContasState();
+}
+
+class _ListaContasState extends State<ListaPessoas> {
+  List<PessoaContaItem> items = [
+    PessoaContaItem('Rafael Vaz da Costa'),
+    PessoaContaItem('Diego Brino'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: EdgeInsets.only(top: 15),
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    runSpacing: 8,
+                    children: [
+                      Text(
+                        items[index].name,
+                        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            items.removeAt(index);
+                          });
+                        },
+                        icon: Icon(Icons.delete),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          elevation: 1,
+        );
+      },
+    );
+  }
+}
 
 class _NavigationState extends State<Navigation> {
   int paginaAtual = 0;
@@ -103,7 +166,29 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
         Container(
-          color: Color(0xFFFEF7EE),
+          color: Color(0xFFFEEEEE),
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Contas',
+                    style: TextStyle(fontSize: 32, ),
+                  ),
+                  Container(
+                      constraints: BoxConstraints(maxHeight: 450),
+                      child: ListaPessoas()
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Container(
+          color: Color(0xFFFEEEEE),
           alignment: Alignment.topLeft,
           child: Padding(
             padding: EdgeInsets.all(16.0),
@@ -111,17 +196,10 @@ class _NavigationState extends State<Navigation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Inicio',
+                  'Perfil',
                   style: TextStyle(fontSize: 32, ),
                 ),
                 InkWell(
-                  onTap: (){
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => VisualizarContasAdm()),
-                          (Route<dynamic> route) => false,
-                    );
-                  },
                   child: Card(
                     margin: EdgeInsets.only(top: 25),
                     child: Padding(
@@ -134,48 +212,11 @@ class _NavigationState extends State<Navigation> {
                                 runSpacing: 8,
                                 children: [
                                   Text(
-                                    'Visualizar Contas',
+                                    'Dados Pessoais',
                                     style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
                                   ),
                                   Text(
-                                    'Veja a lista de todas as contas registradas',
-                                    style: TextStyle( fontSize: 12),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    elevation: 1,
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => CriarContaAdm()),
-                          (Route<dynamic> route) => false,
-                    );
-                },
-                  child: Card(
-                    margin: EdgeInsets.only(top: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                runSpacing: 8,
-                                children: [
-                                  Text(
-                                    'Criar uma Conta',
-                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Crie uma conta com um perfil de Atleta, Treinador ou administrador',
+                                    'Atualize seus dados como nome, email, dentre outros.',
                                     style: TextStyle( fontSize: 12),
                                     softWrap: true,
                                     overflow: TextOverflow.clip,
@@ -191,52 +232,6 @@ class _NavigationState extends State<Navigation> {
               ],
             ),
           ),
-        ),
-        Container(
-          color: Color(0xFFFEF7EE),
-          alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Perfil',
-                    style: TextStyle(fontSize: 32, ),
-                  ),
-                  InkWell(
-                    child: Card(
-                      margin: EdgeInsets.only(top: 25),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Wrap(
-                                  alignment: WrapAlignment.start,
-                                  runSpacing: 8,
-                                  children: [
-                                    Text(
-                                      'Dados Pessoais',
-                                      style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                    ),
-                                    Text(
-                                      'Atualize seus dados como nome, email, dentre outros.',
-                                      style: TextStyle( fontSize: 12),
-                                      softWrap: true,
-                                      overflow: TextOverflow.clip,
-                                    )
-                                  ],
-                                )),
-                          ],
-                        ),
-                      ),
-                      elevation: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
         ),
       ][paginaAtual],
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/AtletaRegistroTreino.dart';
+import 'package:natacaoapp/view/viewAtleta/AtletaRegistroTreino.dart';
 
 class HomeAtleta extends StatelessWidget {
   const HomeAtleta({super.key});

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/HomeAdm.dart';
+import 'package:natacaoapp/view/viewAdm/HomeAdm.dart';
+import 'package:natacaoapp/view/viewTreinador/HomeTreinador.dart';
 
-class CriarContaAdm extends StatelessWidget {
-  const CriarContaAdm({super.key});
+class CriarContaTreinador extends StatelessWidget {
+  const CriarContaTreinador({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _PerfilSuperior extends State<PerfilSuperior> {
           gradient: LinearGradient(
             begin: Alignment.bottomLeft,
             end: Alignment.topRight,
-            colors: [Color(0xFF181818), Color(0xFFFCC9AC)],
+            colors: [Color(0xFF181818), Color(0xFFFCACAC)],
           )),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -123,7 +124,7 @@ class _NavigationState extends State<Navigation> {
       ),
       body: <Widget>[
         Container(
-          color: Color(0xFFFEF7EE),
+          color: Color(0xFFFEEEEE),
           alignment: Alignment.topLeft,
           child: Padding(
             padding: EdgeInsets.all(16.0),
@@ -140,38 +141,38 @@ class _NavigationState extends State<Navigation> {
                     child: TextFormField(
                       controller: nomeController,
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(),
+                          border: OutlineInputBorder(),
                           labelText: 'Nome',
                           fillColor: Color(0xFFFFFFFF),
                           filled: true
-                        ),
-                        validator: (value){
-                          if(value!.isEmpty){
-                          return "Nome é obrigatório!";
-                          }
-                          return null;
-                          },
                       ),
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return "Nome é obrigatório!";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                 ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0,0,20),
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,0,0,20),
+                  child: TextFormField(
+                    controller: emailController,
+                    decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Email',
                         fillColor: Color(0xFFFFFFFF),
                         filled: true
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                        return "Nome é obrigatório!";
-                        }
-                        return null;
-                        },
                     ),
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return "Nome é obrigatório!";
+                      }
+                      return null;
+                    },
                   ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0,0,0,20),
                   child: DropdownButtonFormField<String>(
@@ -186,9 +187,9 @@ class _NavigationState extends State<Navigation> {
                         _tipoContaSelecionado = novoValor;
                       });
                     },
-                      decoration: InputDecoration(
+                    decoration: InputDecoration(
                         labelText: 'Tipo da conta'
-                      ),
+                    ),
 
                   ),
                 ),
@@ -211,7 +212,7 @@ class _NavigationState extends State<Navigation> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0,0,0,0),
+                    padding: const EdgeInsets.fromLTRB(0,0,0,0),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(362, 50),
@@ -229,7 +230,7 @@ class _NavigationState extends State<Navigation> {
 
                         Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(builder: (context) => HomeAdm()),
+                          MaterialPageRoute(builder: (context) => HomeTreinador()),
                               (Route<dynamic> route) => false,
                         );
                       },
@@ -244,7 +245,7 @@ class _NavigationState extends State<Navigation> {
           ),
         ),
         Container(
-          color: Color(0xFFFEF7EE),
+          color: Color(0xFFFEEEEE),
           alignment: Alignment.topLeft,
           child: Padding(
             padding: EdgeInsets.all(16.0),

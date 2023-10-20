@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/AtletaCronometro.dart';
+import 'package:natacaoapp/view/viewAtleta/AtletaCronometro.dart';
 
 class AtletaRegistroTreino extends StatelessWidget {
   const AtletaRegistroTreino({super.key});
