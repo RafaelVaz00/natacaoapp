@@ -65,7 +65,7 @@ class TelaInicial extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeAdm()),
+                            MaterialPageRoute(builder: (context) => HomeAtleta()),
                                 (Route<dynamic> route) => false,
                           );
                         },

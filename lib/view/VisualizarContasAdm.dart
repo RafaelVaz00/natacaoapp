@@ -84,6 +84,11 @@ class _ListaContasState extends State<ListaPessoas> {
     PessoaContaItem('Rafael Vaz da Costa'),
     PessoaContaItem('Diego Brino'),
     PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
   ];
 
   @override
@@ -92,7 +97,7 @@ class _ListaContasState extends State<ListaPessoas> {
       itemCount: items.length,
       itemBuilder: (context, index) {
         return Card(
-          margin: EdgeInsets.only(top: 25),
+          margin: EdgeInsets.only(top: 15),
           child: Padding(
             padding: const EdgeInsets.all(5),
             child: Row(
@@ -174,10 +179,57 @@ class _NavigationState extends State<Navigation> {
                     style: TextStyle(fontSize: 32, ),
                   ),
                   Container(
-                      constraints: BoxConstraints(maxHeight: 250),
-                      child: ListaPessoas()),
+                      constraints: BoxConstraints(maxHeight: 450),
+                      child: ListaPessoas()
+                  ),
                 ],
               ),
+            ),
+          ),
+        ),
+        Container(
+          color: Color(0xFFFEF7EE),
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Perfil',
+                  style: TextStyle(fontSize: 32, ),
+                ),
+                InkWell(
+                  child: Card(
+                    margin: EdgeInsets.only(top: 25),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                runSpacing: 8,
+                                children: [
+                                  Text(
+                                    'Dados Pessoais',
+                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
+                                  ),
+                                  Text(
+                                    'Atualize seus dados como nome, email, dentre outros.',
+                                    style: TextStyle( fontSize: 12),
+                                    softWrap: true,
+                                    overflow: TextOverflow.clip,
+                                  )
+                                ],
+                              )),
+                        ],
+                      ),
+                    ),
+                    elevation: 1,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

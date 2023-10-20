@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/AtletaRegistroTreino.dart';
+import 'package:natacaoapp/view/AtletaCronometro.dart';
 
-class HomeAtleta extends StatelessWidget {
-  const HomeAtleta({super.key});
+class AtletaRegistroTreino extends StatelessWidget {
+  const AtletaRegistroTreino({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +67,73 @@ class _PerfilSuperior extends State<PerfilSuperior> {
   }
 }
 
+class PessoaContaItem {
+
+  final String name;
+
+  PessoaContaItem(this.name);
+
+}
+
+class ListaPessoas extends StatefulWidget{
+  @override
+  _ListaContasState createState() => _ListaContasState();
+}
+
+class _ListaContasState extends State<ListaPessoas> {
+  List<PessoaContaItem> items = [
+    PessoaContaItem('Rafael Vaz da Costa'),
+    PessoaContaItem('Diego Brino'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+    PessoaContaItem('Matheus Rigolão'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: (){
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => AtletaCronometro()),
+                  (Route<dynamic> route) => false,
+            );
+          },
+          child: Card(
+            margin: EdgeInsets.only(top: 15),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      runSpacing: 8,
+                      children: [
+                        Text(
+                          items[index].name,
+                          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            elevation: 1,
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _NavigationState extends State<Navigation> {
   int paginaAtual = 0;
 
@@ -114,115 +181,17 @@ class _NavigationState extends State<Navigation> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Inicio',
+                  'Selecione um atleta',
                   style: TextStyle(fontSize: 32, ),
                 ),
-                InkWell(
-                  child: Card(
-                    margin: EdgeInsets.only(top: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                runSpacing: 8,
-                                children: [
-                                  Text(
-                                    'Ver Treinos ',
-                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Veja a lista de todos os seus últimos treinos para verificar seu desempenho.',
-                                    style: TextStyle( fontSize: 12),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    elevation: 1,
-                  ),
+                Container(
+                constraints: BoxConstraints(maxHeight: 450),
+                child: ListaPessoas()
                 ),
-                InkWell(
-                  onTap: (){
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => AtletaRegistroTreino()),
-                          (Route<dynamic> route) => false,
-                    );
-                  },
-                  child: Card(
-                    margin: EdgeInsets.only(top: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                runSpacing: 8,
-                                children: [
-                                  Text(
-                                    'Registrar Treino ',
-                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Auxilie um colega atleta registrando os tempos dele de acordo com as métricas definidas previamente.',
-                                    style: TextStyle( fontSize: 12),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    elevation: 1,
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    setState(() {
-                      paginaAtual=1;
-                    });
-                  },
-                  child: Card(
-                    margin: EdgeInsets.only(top: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                runSpacing: 8,
-                                children: [
-                                  Text(
-                                    'Desempenho',
-                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Verifique seu desempenho através de gráficos comparativos entre diferentes atletas e modalidades. .',
-                                    style: TextStyle( fontSize: 12),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    elevation: 1,
-                  ),
-                )
-              ],
-            ),
+                ],
           ),
-        ),
+          ),
+          ),
         Container(
           color: Colors.green,
           alignment: Alignment.center,
@@ -271,9 +240,13 @@ class _NavigationState extends State<Navigation> {
                   ),
                 ),
                 InkWell(
-                  onTap: (){
-
-                  },
+                  // onTap: (){
+                  //   Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => CriarContaAdm()),
+                  //         (Route<dynamic> route) => false,
+                  //   );
+                  // },
                   child: Card(
                     margin: EdgeInsets.only(top: 25),
                     child: Padding(
@@ -304,8 +277,13 @@ class _NavigationState extends State<Navigation> {
                   ),
                 ),
                 InkWell(
-                  onTap: (){
-                  },
+                  // onTap: (){
+                  //   Navigator.pushAndRemoveUntil(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => CriarContaAdm()),
+                  //         (Route<dynamic> route) => false,
+                  //   );
+                  // },
                   child: Card(
                     margin: EdgeInsets.only(top: 25),
                     child: Padding(
