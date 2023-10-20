@@ -27,7 +27,7 @@ class PerfilSuperior extends StatefulWidget {
 
 class _PerfilSuperior extends State<PerfilSuperior> {
   final String? name = 'RAFAEL VAZ';
-  final String? tipoConta = 'Administrador';
+  final String? tipoConta = 'Treinador';
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class ContaBase{
 class _NavigationState extends State<Navigation> {
   int paginaAtual = 0;
 
-  List<String> _tipoConta = <String>['Atleta', 'Administrador', 'Treinador'];
+  List<String> _tipoConta = <String>['Atleta', 'Treinador'];
   String? _tipoContaSelecionado;
 
   TextEditingController nomeController = TextEditingController();

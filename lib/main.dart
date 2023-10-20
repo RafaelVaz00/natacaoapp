@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:natacaoapp/view/viewAdm/HomeAdm.dart';
 import 'package:natacaoapp/view/viewAtleta/HomeAtleta.dart';
 import 'package:natacaoapp/view/viewTreinador/HomeTreinador.dart';
+import 'package:natacaoapp/view/viewTreinador/VisualizarContasTreinador.dart';
 
 
 void main() {

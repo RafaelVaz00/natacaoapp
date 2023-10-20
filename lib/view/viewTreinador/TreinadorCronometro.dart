@@ -31,7 +31,7 @@ class PerfilSuperior extends StatefulWidget {
 
 class _PerfilSuperior extends State<PerfilSuperior> {
   final String? name = 'RAFAEL VAZ';
-  final String? tipoConta = 'Atleta';
+  final String? tipoConta = 'Treinador';
 
   @override
   Widget build(BuildContext context) {

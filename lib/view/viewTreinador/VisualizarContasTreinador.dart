@@ -25,7 +25,7 @@ class PerfilSuperior extends StatefulWidget {
 
 class _PerfilSuperior extends State<PerfilSuperior> {
   final String? name = 'RAFAEL VAZ';
-  final String? tipoConta = 'Administrador';
+  final String? tipoConta = 'Treinador';
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +107,12 @@ class _ListaContasState extends State<ListaPessoas> {
                     alignment: WrapAlignment.spaceBetween,
                     runSpacing: 8,
                     children: [
-                      Text(
-                        items[index].name,
-                        style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                      Padding(
+                        padding: const EdgeInsets.all(11.0),
+                        child: Text(
+                          items[index].name,
+                          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
