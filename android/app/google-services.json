@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "417871026107",
+    "project_id": "appnatacao",
+    "storage_bucket": "appnatacao.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417871026107:android:56612ce04b29cd6f08169e",
+        "android_client_info": {
+          "package_name": "com.example.natacaoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIQHct2AHmpACBkwnNf0grn3ZNn6Oxt1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:natacaoapp/view/viewAdm/CriarContaAdm.dart';
 import 'package:natacaoapp/view/viewAdm/VisualizarContasAdm.dart';
+// import 'package:natacaoapp/view/BarraSuperiorLayout.dart';
+import 'package:natacaoapp/controller/UsuarioController.dart';
+
+import '../BarraSuperiorLayout.dart';
+
+UsuarioController usuarioController = new UsuarioController();
 
 class HomeAdm extends StatelessWidget {
   const HomeAdm({super.key});
@@ -14,69 +20,85 @@ class HomeAdm extends StatelessWidget {
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
 
+
   @override
   State<Navigation> createState() => _NavigationState();
 }
 
-class PerfilSuperior extends StatefulWidget {
-  const PerfilSuperior({super.key});
+// class PerfilSuperior extends StatefulWidget {
+//   const PerfilSuperior({super.key});
+//
+//   @override
+//   State<PerfilSuperior> createState() => _PerfilSuperior();
+// }
+//
+// class _PerfilSuperior extends State<PerfilSuperior> {
+//   final String? name = 'RAFAEL VAZ';
+//   final String? tipoConta = 'Administrador';
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: MediaQuery.of(context).size.width,
+//       height: MediaQuery.of(context).size.height * 1,
+//       decoration: const BoxDecoration(
+//           gradient: LinearGradient(
+//             begin: Alignment.bottomLeft,
+//             end: Alignment.topRight,
+//             colors: [Color(0xFF181818), Color(0xFFFCC9AC)],
+//           )),
+//       child: Padding(
+//         padding: const EdgeInsets.all(8.0),
+//         child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       'Bem vindo(a), $tipoConta',
+//                       style: const TextStyle(fontSize: 16, color: Colors.white),
+//                     ),
+//                     Text('$name',
+//                         style: const TextStyle(fontSize: 16, color: Colors.white))
+//                   ]),
+//               const Image(
+//                 width: 50,
+//                 height: 50,
+//                 image: NetworkImage(
+//                     'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'),
+//               )
+//             ]),
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  State<PerfilSuperior> createState() => _PerfilSuperior();
-}
-
-class _PerfilSuperior extends State<PerfilSuperior> {
-  final String? name = 'RAFAEL VAZ';
-  final String? tipoConta = 'Administrador';
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 1,
-      decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [Color(0xFF181818), Color(0xFFFCC9AC)],
-          )),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bem vindo(a), $tipoConta',
-                      style: const TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                    Text('$name',
-                        style: const TextStyle(fontSize: 16, color: Colors.white))
-                  ]),
-              const Image(
-                width: 50,
-                height: 50,
-                image: NetworkImage(
-                    'https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg'),
-              )
-            ]),
-      ),
-    );
-  }
-}
 
 
 class _NavigationState extends State<Navigation> {
+
   int paginaAtual = 0;
+
+  Future<String?> _obterNomeUsuario() async {
+    String? nomeUsuario =  await usuarioController.obterNomeUsuario();
+
+    return nomeUsuario ?? "";
+  }
+
+  Future<String?> _obterTipoConta() async {
+    String? tipoConta =  await usuarioController.obterTipoConta() ;
+
+    return tipoConta  ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: const PerfilSuperior(),
+        flexibleSpace: BarraSuperiorLayout(getName: _obterNomeUsuario, getTipoConta: _obterTipoConta),
+        // flexibleSpace: PerfilSuperior() ,
         toolbarHeight: MediaQuery.of(context).size.height*0.18,
       ),
       bottomNavigationBar: NavigationBar(
