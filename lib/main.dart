@@ -27,12 +27,12 @@ class RotaLogin extends StatelessWidget {
           body: Material(
             color: Colors.white,
                   child: Container(
-                    margin: EdgeInsets.only(top: 80),
+                    margin: EdgeInsets.only(top: 50),
                     child: Column(
                       children: [
-                        Image.asset('lib/view/shared/logounaerp.png',
+                        Image.asset('lib/view/shared/assets/logounaerp.png',
                           scale: 1.0,
-                          width: 270,
+                          width: 240,
                         ),
                         const FormularioLogin(),
                         Padding(
@@ -95,7 +95,7 @@ class FormularioLoginState extends State<FormularioLogin> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.fromLTRB(35,135,35,15),
+            padding: EdgeInsets.fromLTRB(35,100,35,15),
             child: TextFormField(
               controller: emailLogin,
               decoration: InputDecoration(
@@ -137,7 +137,7 @@ class FormularioLoginState extends State<FormularioLogin> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(35,15,35,0),
+            padding: EdgeInsets.fromLTRB(35,30,35,0),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   minimumSize: Size(320, 50),

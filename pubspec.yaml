@@ -35,8 +35,8 @@ flutter:
 #    - lib/view/fonts/FontsFree-Net-SFProText-Semibold.ttf
 #
   assets:
-    - lib/view/shared/logounaerp.png
-    - lib/view/shared/gatobaiano.png
+    - lib/view/shared/assets/logounaerp.png
+    - lib/view/shared/assets/gatobaiano.png
 
 
 
