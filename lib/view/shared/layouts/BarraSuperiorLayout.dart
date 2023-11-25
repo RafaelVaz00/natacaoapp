@@ -35,11 +35,11 @@ class _BarraSuperiorLayoutState extends State<BarraSuperiorLayout> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.30,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomLeft,
           end: Alignment.topRight,
-          colors: [Color(0xFF181818), Color(0xFFFCC9AC)],
+          colors: _obterCoresGradientTipoConta(),
         ),
       ),
       child: Padding(
@@ -72,4 +72,19 @@ class _BarraSuperiorLayoutState extends State<BarraSuperiorLayout> {
       ),
     );
   }
+
+  List<Color> _obterCoresGradientTipoConta(){
+    if (tipoConta == 'Administrador') {
+      return [Color(0xFF181818), Color(0xFFFCC9AC)];
+    } else if (tipoConta == 'ATLETA') {
+      return [Color(0xFF181818), Color(0xFFACDFFB)];
+    }
+      return [Color(0xFF181818), Color(0xFFFCACAC)];
+
+  }
+
+
+
+
+
 }

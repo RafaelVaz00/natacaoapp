@@ -1,75 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/viewAdm/NavigationBarAdm.dart';
-import 'package:natacaoapp/controller/UsuarioController.dart';
+import 'package:natacaoapp/view/viewAdm/CriarContaAdm.dart';
+import 'package:natacaoapp/view/viewAdm/VisualizarContasAdm.dart';
 
-import '../shared/layouts/BarraSuperiorLayout.dart';
-
-UsuarioController usuarioController = new UsuarioController();
-
-class HomeAdm extends StatelessWidget {
+class HomeAdm extends StatefulWidget {
   const HomeAdm({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(home: Navigation());
-  }
+  State<HomeAdm> createState() => _HomeAdmState();
 }
 
-class Navigation extends StatefulWidget {
-  const Navigation({super.key});
 
-
-  @override
-  State<Navigation> createState() => _NavigationState();
-}
-
-class _NavigationState extends State<Navigation> {
-
-  int paginaAtual = 0;
-
-  Future<String?> _obterNomeUsuario() async {
-    String? nomeUsuario =  await usuarioController.obterNomeUsuario();
-
-    return nomeUsuario ?? "";
-  }
-
-  Future<String?> _obterTipoConta() async {
-    String? tipoConta =  await usuarioController.obterTipoConta() ;
-
-    return tipoConta  ?? "";
-  }
+class _HomeAdmState extends State<HomeAdm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        flexibleSpace: BarraSuperiorLayout(getName: _obterNomeUsuario, getTipoConta: _obterTipoConta),
-        toolbarHeight: MediaQuery.of(context).size.height*0.18,
+    return Container(
+      color: Color(0xFFFEF7EE),
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Inicio',
+              style: TextStyle(fontSize: 32,),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const VisualizarContasAdm())
+                );
+              },
+              child: Card(
+                margin: EdgeInsets.only(top: 25),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Wrap(
+                            alignment: WrapAlignment.start,
+                            runSpacing: 8,
+                            children: [
+                              Text(
+                                'Visualizar Contas',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              Text(
+                                'Veja a lista de todas as contas registradas',
+                                style: TextStyle(fontSize: 12),
+                                softWrap: true,
+                                overflow: TextOverflow.clip,
+                              )
+                            ],
+                          )),
+                    ],
+                  ),
+                ),
+                elevation: 1,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CriarContaAdm())
+                );
+              },
+              child: Card(
+                margin: EdgeInsets.only(top: 25),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Wrap(
+                            alignment: WrapAlignment.start,
+                            runSpacing: 8,
+                            children: [
+                              Text(
+                                'Criar uma Conta',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              Text(
+                                'Crie uma conta com um perfil de Atleta, Treinador ou administrador',
+                                style: TextStyle(fontSize: 12),
+                                softWrap: true,
+                                overflow: TextOverflow.clip,
+                              )
+                            ],
+                          )),
+                    ],
+                  ),
+                ),
+                elevation: 1,
+              ),
+            ),
+          ],
+        ),
       ),
-      body: FutureBuilder<String?>(
-          future: _obterTipoConta(),
-          builder: (context, snapshot){
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Enquanto o Future ainda estiver em execução, mostre um indicador de carregamento
-              return CircularProgressIndicator();
-            }
-            else {
-              // Se o Future for concluído com êxito, verifique o resultado
-              String? tipoConta = snapshot.data;
-
-              // if(tipoConta =='Administrador'){
-              //   NavigationBarAdm();
-              // }
-
-              return NavigationBarAdm();
-            }
-
-
-          },
-
-          // NavigationBarAdm()
-      ),
-
     );
   }
 }

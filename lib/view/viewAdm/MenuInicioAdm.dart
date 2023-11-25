@@ -28,13 +28,6 @@ class _MenuInicioAdmState extends State<MenuInicioAdm> {
             ),
             InkWell(
               onTap: () {
-              //   Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => VisualizarContasAdm()),
-              //         (Route<dynamic> route) => false,
-              //   );
-
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const VisualizarContasAdm())
@@ -72,11 +65,6 @@ class _MenuInicioAdmState extends State<MenuInicioAdm> {
             ),
             InkWell(
               onTap: () {
-              //   Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(builder: (context) => CriarContaAdm()),
-              //         (Route<dynamic> route) => false,
-              //   );
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const CriarContaAdm())

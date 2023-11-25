@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:natacaoapp/view/shared/layouts/Home.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:natacaoapp/controller/LoginController.dart';
@@ -154,7 +155,7 @@ class FormularioLoginState extends State<FormularioLogin> {
                   loginController.realizarLogin(emailLogin.text, senhaLogin.text);
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeAdm()),
+                    MaterialPageRoute(builder: (context) => Home()),
                         (Route<dynamic> route) => false,
                   );
                 }
@@ -195,75 +196,79 @@ class RotaRecuperacaoSenhaState extends State<RotaRecuperacaoSenha>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-          body: Material(
-            color: Colors.white,
-            child: Container(
-              margin: EdgeInsets.only(top: 130),
-              child: Column(
-                children: [
-                  Image.asset('lib/view/shared/logounaerp.png',
-                    scale: 1.0,
-                    width: 270,
-                  ),
-                  Form(
-                    key: _formKeyRS,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(35,100,35,15),
-                      child: TextFormField(
-                        controller: emailRecuperacao,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Insira seu email',
-                          fillColor: Color(0xFFEAF0F7),
-                          filled: true,
+    return MaterialApp(
+      home: Scaffold(
+            body: SingleChildScrollView(
+              child: Material(
+                color: Colors.white,
+                child: Container(
+                  margin: EdgeInsets.only(top: 130),
+                  child: Column(
+                    children: [
+                      Image.asset('lib/view/shared/logounaerp.png',
+                        scale: 1.0,
+                        width: 270,
+                      ),
+                      Form(
+                        key: _formKeyRS,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(35,100,35,15),
+                          child: TextFormField(
+                            controller: emailRecuperacao,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Insira seu email',
+                              fillColor: Color(0xFFEAF0F7),
+                              filled: true,
+                            ),
+                              validator: (value){
+                                if(value == null || value.isEmpty){
+                                  return 'Insira um email';
+                                }
+                                if(!EmailValidator.validate(value)){
+                                  return 'Insira um email válido!';
+                                }
+                                return null;
+                              }
+                          ),
                         ),
-                          validator: (value){
-                            if(value == null || value.isEmpty){
-                              return 'Insira um email';
-                            }
-                            if(!EmailValidator.validate(value)){
-                              return 'Insira um email válido!';
-                            }
-                            return null;
-                          }
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(35,15,35,0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: Size(320, 50),
+                              primary: Color(0xFF4461F2)
+                          ),
+                          onPressed: () {
+                            if(_formKeyRS.currentState!.validate()) {
+                              //email sendo enviado, porém há falhas as vezes, e a tela não volta após o sucesso.
+                              try {
+                                if (loginController.enviarEmailRedefinicaoSenha(emailRecuperacao.text) == true) {
+                                  Navigator.pop(context);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('O envio falhou!'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              } catch(e){ print(e);}
+                            }
+                          },
+                          child: Text(
+                            'Recebe Email',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(35,15,35,0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: Size(320, 50),
-                          primary: Color(0xFF4461F2)
-                      ),
-                      onPressed: () {
-                        if(_formKeyRS.currentState!.validate()) {
-                          //email sendo enviado, porém há falhas as vezes, e a tela não volta após o sucesso.
-                          try {
-                            if (loginController.enviarEmailRedefinicaoSenha(emailRecuperacao.text) == true) {
-                              Navigator.pop(context);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('O envio falhou!'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            }
-                          } catch(e){ print(e);}
-                        }
-                      },
-                      child: Text(
-                        'Recebe Email',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ),),
-                ],
+                ),
               ),
             ),
           ),
-        );
+    );
   }
 
 }
