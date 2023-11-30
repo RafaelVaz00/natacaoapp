@@ -29,10 +29,9 @@ class _HomeTreinadorState extends State<HomeTreinador> {
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.pushAndRemoveUntil(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => VisualizarContasTreinador()),
-                          (Route<dynamic> route) => false,
                     );
                   },
                   child: Card(
@@ -66,10 +65,9 @@ class _HomeTreinadorState extends State<HomeTreinador> {
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.pushAndRemoveUntil(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TreinadorRegistroTreino()),
-                          (Route<dynamic> route) => false,
                     );
                   },
                   child: Card(
@@ -103,10 +101,9 @@ class _HomeTreinadorState extends State<HomeTreinador> {
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.pushAndRemoveUntil(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CriarContaTreinador()),
-                          (Route<dynamic> route) => false,
                     );
                   },
 

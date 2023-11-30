@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:natacaoapp/view/viewAtleta/PerfilUploadArquivos.dart';
 
 class PerfilAtleta extends StatefulWidget {
   const PerfilAtleta({super.key});
@@ -89,6 +90,10 @@ class _PerfilAtletaState extends State<PerfilAtleta> {
             ),
             InkWell(
               onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PerfilUploadArquivos())
+                );
               },
               child: Card(
                 margin: EdgeInsets.only(top: 25),

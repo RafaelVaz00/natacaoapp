@@ -28,12 +28,18 @@ class UsuarioController {
     });
   }
 
+  void desconectarUsuarioAtual() async{
+    await FirebaseAuth.instance.signOut();
+  }
+
+
   Future<String?> obterUserID() async{
 
     verificarAutenticacao();
 
     if(FirebaseAuth.instance.currentUser != null){
-      return FirebaseAuth.instance.currentUser?.uid.toString();
+      // return FirebaseAuth.instance.currentUser?.uid.toString(); antigo
+      return FirebaseAuth.instance.currentUser!.uid.toString();
     }
     return null;
   }

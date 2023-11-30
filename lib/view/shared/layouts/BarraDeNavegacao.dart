@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/viewAdm/MenuInicioAdm.dart';
 import 'package:natacaoapp/view/viewAdm/MenuPerfilAdm.dart';
 import 'package:natacaoapp/view/viewAtleta/HomeAtleta.dart';
 import 'package:natacaoapp/view/viewAtleta/PerfilAtleta.dart';
 import 'package:natacaoapp/view/viewTreinador/HomeTreinador.dart';
 import 'package:natacaoapp/view/viewTreinador/PerfilTreinador.dart';
+
+import '../../viewAdm/HomeAdm.dart';
 
 
 class BarraDeNavegacao extends StatefulWidget {
@@ -26,7 +27,7 @@ class _BarraDeNavegacaoState extends State<BarraDeNavegacao> {
 
     switch (tipoConta) {
       case 'ADMINISTRADOR':
-        return [MenuInicioAdm(), MenuPerfilAdm() ];
+        return [HomeAdm(), MenuPerfilAdm() ];
       case 'ATLETA':
         return [HomeAtleta(), PerfilAtleta()
           // ,AtletaCronometro()

@@ -74,7 +74,7 @@ class _BarraSuperiorLayoutState extends State<BarraSuperiorLayout> {
   }
 
   List<Color> _obterCoresGradientTipoConta(){
-    if (tipoConta == 'Administrador') {
+    if (tipoConta == 'ADMINISTRADOR') {
       return [Color(0xFF181818), Color(0xFFFCC9AC)];
     } else if (tipoConta == 'ATLETA') {
       return [Color(0xFF181818), Color(0xFFACDFFB)];
@@ -82,9 +82,5 @@ class _BarraSuperiorLayoutState extends State<BarraSuperiorLayout> {
       return [Color(0xFF181818), Color(0xFFFCACAC)];
 
   }
-
-
-
-
 
 }

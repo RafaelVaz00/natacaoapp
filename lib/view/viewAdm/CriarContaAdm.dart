@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/viewAdm/HomeAdm.dart';
+import 'package:natacaoapp/controller/AdministradorController.dart';
+import 'package:natacaoapp/view/shared/layouts/Home.dart';
 
 class CriarContaAdm extends StatefulWidget {
   const CriarContaAdm({super.key});
@@ -8,31 +9,17 @@ class CriarContaAdm extends StatefulWidget {
   State<CriarContaAdm> createState() => _CriarContaAdmState();
 }
 
-class ContaBase{
-
-  String? nome;
-  String? email;
-  String? tipoConta;
-  String? senha;
-
-  ContaBase(){
-
-  }
-
-}
+AdministradorController administradorController = new AdministradorController();
 
 class _CriarContaAdmState extends State<CriarContaAdm> {
-  int paginaAtual = 0;
 
-  List<String> _tipoConta = <String>['Atleta', 'Administrador', 'Treinador'];
+  List<String> _tipoConta = <String>['ATLETA', 'ADMINISTRADOR', 'TREINADOR'];
   String? _tipoContaSelecionado;
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController tipoContaController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
-
-  var conta = ContaBase();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +28,7 @@ class _CriarContaAdmState extends State<CriarContaAdm> {
             color: Color(0xFFFEF7EE),
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.fromLTRB(10,60,10,0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -49,25 +36,23 @@ class _CriarContaAdmState extends State<CriarContaAdm> {
                     'Cadastre uma Conta',
                     style: TextStyle(fontSize: 28, ),
                   ),
-                  Form(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0,20,0,20),
-                      child: TextFormField(
-                        controller: nomeController,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                            labelText: 'Nome',
-                            fillColor: Color(0xFFFFFFFF),
-                            filled: true
-                          ),
-                          validator: (value){
-                            if(value!.isEmpty){
-                            return "Nome é obrigatório!";
-                            }
-                            return null;
-                            },
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,40,0,20),
+                    child: TextFormField(
+                      controller: nomeController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                          labelText: 'Nome',
+                          fillColor: Color(0xFFFFFFFF),
+                          filled: true
                         ),
-                    ),
+                        validator: (value){
+                          if(value!.isEmpty){
+                          return "Nome é obrigatório!";
+                          }
+                          return null;
+                          },
+                      ),
                   ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0,0,0,20),
@@ -130,22 +115,18 @@ class _CriarContaAdmState extends State<CriarContaAdm> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             minimumSize: Size(362, 50),
-                            primary: Color(0xFFf2ad2c)
+                            primary: Color(0xFFF24444)
                         ),
                         onPressed: () {
-
-                          conta.nome = nomeController.text;
-                          conta.email = emailController.text;
-                          conta.senha = senhaController.text;
-
-                          print(conta.nome.toString());
-                          print(conta.email.toString());
-                          print(conta.senha.toString());
-
-                          Navigator.pushAndRemoveUntil(
+                          administradorController.cadastroUsuario(
+                              nomeController.text,
+                              emailController.text,
+                              _tipoContaSelecionado.toString(),
+                              senhaController.text
+                          );
+                          Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => HomeAdm()),
-                                (Route<dynamic> route) => false,
+                            MaterialPageRoute(builder: (context) => Home())
                           );
                         },
                         child: Text(

@@ -17,11 +17,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.21.0
   firebase_auth: ^4.12.1
-  cloud_firestore: ^4.12.2
+  cloud_firestore: ^4.13.3
   firebase_messaging: ^14.7.3
   firebase_storage: ^11.4.1
   firebase_in_app_messaging: ^0.7.4+3
   email_validator: '^2.1.16'
+  image_picker: '0.8.3'
 
 dev_dependencies:
   flutter_test:

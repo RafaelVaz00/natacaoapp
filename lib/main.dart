@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:natacaoapp/controller/AdministradorController.dart';
 import 'package:natacaoapp/view/shared/layouts/Home.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:natacaoapp/controller/LoginController.dart';
-import 'package:natacaoapp/view/viewAdm/HomeAdm.dart';
-import 'package:natacaoapp/view/viewAtleta/HomeAtleta.dart';
-import 'package:natacaoapp/view/viewTreinador/HomeTreinador.dart';
-import 'package:natacaoapp/view/viewTreinador/VisualizarContasTreinador.dart';
 import 'package:email_validator/email_validator.dart';
+
+import 'model/Usuario.dart';
 
 void main() {
   runApp(MaterialApp(home: const RotaLogin()));
@@ -24,45 +20,47 @@ class RotaLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-          body: Material(
-            color: Colors.white,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 50),
-                    child: Column(
-                      children: [
-                        Image.asset('lib/view/shared/assets/logounaerp.png',
-                          scale: 1.0,
-                          width: 240,
-                        ),
-                        const FormularioLogin(),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(180,20,35,35),
-                          child: Column(
-                            children: [
-                              Text('Não consegue se conectar?'),
-                              InkWell(
-                                onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const RotaRecuperacaoSenha())
-                                  );
-                                },
-                                  child: Text(
-                                    'Recupere sua senha!',
-                                    style: TextStyle(
-                                      color: Color(0xFF4461F2)
-                                    ),
-                                  )
-                              )
-                            ],
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: Material(
+                    color: Colors.white,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 50),
+                            child: Column(
+                              children: [
+                                Image.asset('lib/view/shared/assets/logounaerp.png',
+                                  scale: 1.0,
+                                  width: 240,
+                                ),
+                                const FormularioLogin(),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(180,20,35,35),
+                                  child: Column(
+                                    children: [
+                                      Text('Não consegue se conectar?'),
+                                      InkWell(
+                                        onTap: (){
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => const RotaRecuperacaoSenha())
+                                          );
+                                        },
+                                          child: Text(
+                                            'Recupere sua senha!',
+                                            style: TextStyle(
+                                              color: Color(0xFF4461F2)
+                                            ),
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                  ),
+                              ],
+                            ),
                           ),
-                          ),
-                      ],
-                    ),
-                  ),
           ),
-        )
+        ),
+      ),
     );
   }
 }
@@ -90,7 +88,6 @@ class FormularioLoginState extends State<FormularioLogin> {
   }
 
   Widget build(BuildContext context) {
-
     return Form(
       key: _formKey,
       child: Column(
@@ -119,6 +116,7 @@ class FormularioLoginState extends State<FormularioLogin> {
           Padding(
             padding: EdgeInsets.fromLTRB(35,5,35,0),
             child: TextFormField(
+              obscureText: true,
               controller: senhaLogin,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -144,7 +142,7 @@ class FormularioLoginState extends State<FormularioLogin> {
                   minimumSize: Size(320, 50),
                   primary: Color(0xFF4461F2)
               ),
-              onPressed: () {
+              onPressed: () async {
                 if(_formKey.currentState!.validate()){
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -152,6 +150,36 @@ class FormularioLoginState extends State<FormularioLogin> {
                         duration: Duration(seconds: 2),
                       )
                   );
+                  }
+
+                // A lógica funciona da seguinte maneira, primeiro irá verificar se existe algum usuario
+                // na collection de pré cadastro com os campos email e senha, e se está com a flag de primeiro
+                // acesso marcada, caso exista registro nessas condições, a lógica irá proceder com o cadastro
+                // do usuario com aqueles dados encontrados de email e senha no firebase authentication, após isso
+                // o usuario é autenticado, e é feito uma nova verificação, fazendo com que os registros do pré cadastro
+                // sejam copiados para o documento de usuario de fato, e é feito a deleção do pré cadastro para economizar
+                // espaço. Atenção: atualmente essa logica está funcionando apenas com a regra do banco permitindo a leitura
+                // e gravação sem estar autenticado.
+
+                Usuario? usuarioPrimeiroAcesso = await loginController
+                    .verificarFlagPA(emailLogin.text, senhaLogin.text);
+
+                if(usuarioPrimeiroAcesso?.flagPA==true){
+                  AdministradorController administradorController = new AdministradorController();
+
+
+                  administradorController.cadastrarUsuarioEmailSenha(emailLogin.text, senhaLogin.text);
+                  loginController.realizarLogin(emailLogin.text, senhaLogin.text);
+                  administradorController.criarDocumentoUsuarioPrimeiroAcesso(usuarioPrimeiroAcesso);
+
+
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                        (Route<dynamic> route) => false,
+                  );
+
+                } else{
                   loginController.realizarLogin(emailLogin.text, senhaLogin.text);
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -159,7 +187,11 @@ class FormularioLoginState extends State<FormularioLogin> {
                         (Route<dynamic> route) => false,
                   );
                 }
-              },
+
+
+
+
+                },
               child: Text(
                 'Entrar',
                 style: TextStyle(fontSize: 18),
@@ -205,7 +237,7 @@ class RotaRecuperacaoSenhaState extends State<RotaRecuperacaoSenha>{
                   margin: EdgeInsets.only(top: 130),
                   child: Column(
                     children: [
-                      Image.asset('lib/view/shared/logounaerp.png',
+                      Image.asset('lib/view/shared/assets/logounaerp.png',
                         scale: 1.0,
                         width: 270,
                       ),

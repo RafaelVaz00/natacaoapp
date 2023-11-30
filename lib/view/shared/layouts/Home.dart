@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:natacaoapp/view/shared/layouts/BarraSuperiorLayout.dart';
-import 'package:natacaoapp/view/shared/layouts/NavigationBar.dart';
-import 'package:natacaoapp/view/viewAdm/NavigationBarAdm.dart';
+import 'package:natacaoapp/view/shared/layouts/BarraDeNavegacao.dart';
 import 'package:natacaoapp/controller/UsuarioController.dart';
 
 UsuarioController usuarioController = new UsuarioController();
@@ -56,10 +55,6 @@ class _NavigationState extends State<Navigation> {
           else {
             // Se o Future for concluído com êxito, verifique o resultado
             String? tipoConta = snapshot.data;
-
-            // if(tipoConta =='Administrador'){
-            //   NavigationBarAdm();
-            // }
 
             if(tipoConta != null){
               return BarraDeNavegacao(tipoContaRaiz: tipoConta);
