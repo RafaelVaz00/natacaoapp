@@ -28,8 +28,6 @@ class LoginController {
   }
 
   Future<void> realizarLogin(String email, String password) async {
-
-
     try{
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
@@ -47,8 +45,6 @@ class LoginController {
 
   Future<Usuario?> verificarFlagPA(String email, String senha) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-
     try {
       QuerySnapshot querySnapshot = await firestore
           .collection('preCadastro')

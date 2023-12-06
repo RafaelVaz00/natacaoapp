@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:natacaoapp/view/shared/layouts/Home.dart';
 import 'package:natacaoapp/view/viewAtleta/AtletaRegistroTreino.dart';
+import 'package:natacaoapp/view/viewAtleta/VisualizarMeusTreinos.dart';
 
 class HomeAtleta extends StatefulWidget {
   const HomeAtleta({super.key});
@@ -8,6 +11,9 @@ class HomeAtleta extends StatefulWidget {
   State<HomeAtleta> createState() => _HomeAtletaState();
 }
 class _HomeAtletaState extends State<HomeAtleta> {
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +31,10 @@ class _HomeAtletaState extends State<HomeAtleta> {
                 ),
                 InkWell(
                   onTap: (){
-                    // Navigator.push(
-                        // context,
-                        // MaterialPageRoute(builder: (context) => AtletaRegistroTreino()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>VisualizarMeusTreinos())
+                    );
                   },
                   child: Card(
                     margin: EdgeInsets.only(top: 25),

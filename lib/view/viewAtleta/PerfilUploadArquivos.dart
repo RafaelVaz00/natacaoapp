@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:natacaoapp/view/shared/layouts/Home.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../controller/AdministradorController.dart';
 
@@ -29,6 +28,12 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
   late Reference regulamentoImagemRef;
   File? imageTemp;
 
+  String? rgImagemUrl;
+  String? cpfImagemUrl;
+  String? comprovanteImagemUrl;
+  String? fotoImagemUrl;
+  String? regulamentoImagemUrl;
+
  @override
  void initState(){
    super.initState();
@@ -44,7 +49,16 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
      comprovanteImagemRef = storageAtletaRef.child("comprovante_endereco_ImagemRef.jpg");
      fotoImagemRef = storageAtletaRef.child("foto_perfil_imagem.jpg");
      regulamentoImagemRef= storageAtletaRef.child("regulamento_assinado.jpg");
+
+
    });
+
+   rgImagemUrl = await rgImagemRef.getDownloadURL();
+   cpfImagemUrl = await cpfImagemRef.getDownloadURL();
+   comprovanteImagemUrl = await comprovanteImagemRef.getDownloadURL();
+   fotoImagemUrl = await fotoImagemRef.getDownloadURL();
+   regulamentoImagemUrl = await regulamentoImagemRef.getDownloadURL();
+
  }
 
   Future pickImage() async {
@@ -62,7 +76,7 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Uploads'),
+          title: Text('Anexos'),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -75,33 +89,45 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Upload de Arquivos',
-                      style: TextStyle(fontSize: 28,),
-                    ),
+                        Text(
+                          'Selecione os arquivos',
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        Text(
+                          'Atenção: algumas imagens podem demorar serem carregadas, portanto aguarde alguns segundos.',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                    // Image.network(rgImagemUrl ?? 'nenhuma imagem carregada'),
+                    CachedNetworkImage(imageUrl: rgImagemUrl.toString(),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url , error) => Icon(Icons.hourglass_empty)),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: Size(362, 50),
-                              primary: Color(0xFFF24444)
-                          ),
-                          onPressed: () async {
-                            await pickImage();
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: Size(362, 50),
+                                primary: Color(0xFFF24444)
+                            ),
+                            onPressed: () async {
+                              await pickImage();
 
-                            try{
-                              await rgImagemRef.putFile(imageTemp!);
-                            } on Exception catch(e){
-                              print(e);
-                            }
+                              try{
+                                await rgImagemRef.putFile(imageTemp!);
+                              } on Exception catch(e){
+                                print(e);
+                              }
 
-                          },
-                          child: Text(
-                            'Selecione um RG',
-                            style: TextStyle(fontSize: 18),
+                            },
+                            child: Text(
+                              'Selecione um RG',
+                              style: TextStyle(fontSize: 18),
+                            ),
                           ),
-                        )
                     ),
+                    Image.network(cpfImagemUrl.toString() ?? 'nenhuma imagem carregada'),
+                    // CachedNetworkImage(imageUrl: cpfImagemUrl.toString() ?? '',
+                    //     placeholder: (context, url) => CircularProgressIndicator(),
+                    //     errorWidget: (context, url , error) => Icon(Icons.hourglass_empty)),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: ElevatedButton(
@@ -123,6 +149,17 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
                             style: TextStyle(fontSize: 18),
                           ),
                         )
+                    ),
+                    // Image.network(comprovanteImagemUrl ?? "nenhuma imagem carregada"),
+                    Image.network(
+                      rgImagemUrl ?? 'nenhuma imagem carregada',
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      },
                     ),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -146,6 +183,7 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
                           ),
                         )
                     ),
+                     Image.network(fotoImagemUrl ?? 'nenhuma imagem carregada'),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: ElevatedButton(
@@ -168,6 +206,7 @@ class _PerfilUploadArquivosState extends State<PerfilUploadArquivos> {
                           ),
                         )
                     ),
+                    Image.network(regulamentoImagemUrl ?? 'nenhuma imagem carregada'),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                         child: ElevatedButton(

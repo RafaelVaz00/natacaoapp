@@ -1,68 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:natacaoapp/controller/AdministradorController.dart';
 
+import '../../model/Atleta.dart';
 import '../../model/Usuario.dart';
 
 class ListaContas extends StatefulWidget{
-  final List<Usuario> usuarios;
+  final List<Atleta> atletas;
 
-  ListaContas({required this.usuarios});
+  ListaContas({required this.atletas});
 
   @override
   _ListaContasState createState() => _ListaContasState();
 }
 
 class _ListaContasState extends State<ListaContas> {
-  bool _selected = false;
-  bool _enabled = true;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.usuarios.length,
+      itemCount: widget.atletas.length,
       itemBuilder: (context, index) {
-        Usuario usuario = widget.usuarios[index];
-        Card(child: ListTile(
-          enabled: _enabled,
-          selected: _selected,
+        Atleta atleta = widget.atletas[index];
+        return Card(
+          child: ListTile(
+          // enabled: _enabled,
+          // selected: _selected,
+          title: Text(atleta.nome),
           onTap: () {
-            setState(() {
-              _selected = !_selected;
-            });
+            // setState(() {
+            //   _selected = !_selected;
+            // });
           },
-          iconColor: MaterialStateColor.resolveWith((
-              Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled)) {
-              return Colors.red;
-            }
-            if (states.contains(MaterialState.selected)) {
-              return Colors.green;
-            }
-            return Colors.black;
-          }),
-          textColor: MaterialStateColor.resolveWith((
-              Set<MaterialState> states) {
-            if (states.contains(MaterialState.disabled)) {
-              return Colors.red;
-            }
-            if (states.contains(MaterialState.selected)) {
-              return Colors.green;
-            }
-            return Colors.black;
-          }),
           leading: const Icon(Icons.person),
-          title: Text(usuario.nome ?? ""),
-          subtitle: Text('Enabled: $_enabled, Selected: $_selected'),
-          trailing: Switch(
-            onChanged: (bool? value) {
-              // This is called when the user toggles the switch.
-              setState(() {
-                _enabled = value!;
-              });
-            },
-            value: _enabled,
-          ),
-
         ),
         );
 
@@ -82,12 +51,13 @@ class _VisualizarContasTreinadorState extends State<VisualizarContasTreinador> {
 
   AdministradorController administradorController = new AdministradorController();
 
-  late Future<List<Usuario>> _usuarios;
+  late Future<List<Atleta>> _atletas;
 
   @override
   void initState(){
     super.initState();
-    _usuarios = administradorController.obterListaUsuarios();
+    _atletas = administradorController.obterListaAtletas();
+    print(_atletas);
   }
 
   @override
@@ -104,11 +74,11 @@ class _VisualizarContasTreinadorState extends State<VisualizarContasTreinador> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Contas',
+                    'Lista de atletas',
                     style: TextStyle(fontSize: 32, ),
                   ),
-                  FutureBuilder<List<Usuario>>(
-                      future: _usuarios,
+                  FutureBuilder<List<Atleta>>(
+                      future: _atletas,
                       builder: (context, snapshot){
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return CircularProgressIndicator();
@@ -119,7 +89,7 @@ class _VisualizarContasTreinadorState extends State<VisualizarContasTreinador> {
                         } else {
                           return Container(
                             constraints: BoxConstraints(maxHeight: 450),
-                            child: ListaContas(usuarios: snapshot.data!),
+                            child: ListaContas(atletas: snapshot.data!),
                           );
                         }
                       },

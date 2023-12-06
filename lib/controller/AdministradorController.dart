@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import '../model/Atleta.dart';
 import '../model/Usuario.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,7 +64,8 @@ class AdministradorController {
         // Referência ao documento na coleção "usuarios" com o UID como nome e seta os dados do pré cadastro
         DocumentReference userDocumentRef = firestore.collection('usuarios').doc(uid);
         userDocumentRef.set(dados!);
-
+        // FirebaseFirestore.instance.collection('usuarios').doc(uid).set(data)
+        
 
         //deleta o documento de pré cadastro
         await firestore.collection('preCadastro').doc(usuario?.idDocumento).delete();
@@ -156,6 +158,24 @@ class AdministradorController {
     }
   }
 
+  Future<List<Atleta>> obterListaAtletas() async{
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    QuerySnapshot querySnapshot = await firestore.collection('usuarios').get();
+
+    try{
+      List<Atleta> atleta = querySnapshot.docs.map((documento) {
+        return Atleta(
+            email_atleta: documento['email_atleta'],
+            nome: documento['nome'],
+        );
+      }).toList();
+      return atleta;
+    } catch (e) {
+      print('Erro ao buscar usuários: $e');
+      return [];
+    }
+  }
 
   Future<String?> obterNomeUsuario() async{
 

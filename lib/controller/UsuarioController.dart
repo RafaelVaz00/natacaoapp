@@ -79,7 +79,7 @@ class UsuarioController {
           .get();
 
       if(documentSnapshot.exists){
-        String? tipoConta = documentSnapshot.get('tipoConta');
+        String tipoConta = documentSnapshot.get('tipoConta');
 
         return tipoConta;
       } else {
@@ -88,8 +88,9 @@ class UsuarioController {
       }
     } catch (e){
       print('Erro ao ler o campo: $e');
-      return null;
+      return  null;
     }
+
   }
 
 

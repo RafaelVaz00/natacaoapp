@@ -5,14 +5,16 @@ class Usuario {
   final String? nome;
   final String? senha;
   final String? tipoConta;
-  final String? idDocumento;
+  final String? uidAtleta;
+  final String idDocumento;
 
   Usuario({
-    required this.email_atleta,
-    required this.flagPA,
-    required this.nome,
-    required this.senha,
-    required this.tipoConta,
+    this.email_atleta,
+    this.flagPA,
+    this.nome,
+    this.senha,
+    this.tipoConta,
+    this.uidAtleta,
     required this.idDocumento
   });
 }

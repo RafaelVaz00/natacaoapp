@@ -158,15 +158,12 @@ class FormularioLoginState extends State<FormularioLogin> {
                 // do usuario com aqueles dados encontrados de email e senha no firebase authentication, após isso
                 // o usuario é autenticado, e é feito uma nova verificação, fazendo com que os registros do pré cadastro
                 // sejam copiados para o documento de usuario de fato, e é feito a deleção do pré cadastro para economizar
-                // espaço. Atenção: atualmente essa logica está funcionando apenas com a regra do banco permitindo a leitura
-                // e gravação sem estar autenticado.
+                // espaço.
 
-                Usuario? usuarioPrimeiroAcesso = await loginController
-                    .verificarFlagPA(emailLogin.text, senhaLogin.text);
+                Usuario? usuarioPrimeiroAcesso = await loginController.verificarFlagPA(emailLogin.text, senhaLogin.text);
 
                 if(usuarioPrimeiroAcesso?.flagPA==true){
                   AdministradorController administradorController = new AdministradorController();
-
 
                   administradorController.cadastrarUsuarioEmailSenha(emailLogin.text, senhaLogin.text);
                   loginController.realizarLogin(emailLogin.text, senhaLogin.text);

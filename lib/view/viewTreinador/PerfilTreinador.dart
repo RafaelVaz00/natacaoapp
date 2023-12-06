@@ -37,76 +37,11 @@ class _PerfilTreinadorState extends State<PerfilTreinador> {
                             runSpacing: 8,
                             children: [
                               Text(
-                                'Dados Pessoais',
+                                'Alterar email e senha',
                                 style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
                               ),
                               Text(
-                                'Atualize seus dados como: endereço, local de trabalho, convênio médico, dentre outros.',
-                                style: TextStyle( fontSize: 12),
-                                softWrap: true,
-                                overflow: TextOverflow.clip,
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-                elevation: 1,
-              ),
-            ),
-            InkWell(
-              onTap: (){
-
-              },
-              child: Card(
-                margin: EdgeInsets.only(top: 25),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Wrap(
-                            alignment: WrapAlignment.start,
-                            runSpacing: 8,
-                            children: [
-                              Text(
-                                'Contato',
-                                style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              Text(
-                                'Atualize seus telefones de contato, tais como telefone da mãe, pai, telefones de emergência, dentre outros.',
-                                style: TextStyle( fontSize: 12),
-                                softWrap: true,
-                                overflow: TextOverflow.clip,
-                              )
-                            ],
-                          )),
-                    ],
-                  ),
-                ),
-                elevation: 1,
-              ),
-            ),
-            InkWell(
-              onTap: (){
-              },
-              child: Card(
-                margin: EdgeInsets.only(top: 25),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Wrap(
-                            alignment: WrapAlignment.start,
-                            runSpacing: 8,
-                            children: [
-                              Text(
-                                'Anexos',
-                                style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              Text(
-                                'Anexe arquivos, tais como atestados médicos, RG, CPF, comprovante de endereço, entre outros.',
+                                'Atualize seus dados como email e senha',
                                 style: TextStyle( fontSize: 12),
                                 softWrap: true,
                                 overflow: TextOverflow.clip,
