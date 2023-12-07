@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:natacaoapp/model/Usuario.dart';
+import '../view/shared/layouts/Home.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,15 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginController {
 
-  void iniciarFireBase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
-
   Future<void> enviarEmailRedefinicaoSenha(String email) async {
-
-    iniciarFireBase();
 
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -27,21 +20,22 @@ class LoginController {
     }
   }
 
-  Future<void> realizarLogin(String email, String password) async {
-    // await FirebaseAuth.instance.signOut(); // Necessário pois no emulador a instancia fica cacheada quando reinicia o debug
+  Future<void> realizarLogin(String email, String password, BuildContext context) async {
     try{
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
         password: password
       );
-
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+            (Route<dynamic> route) => false,
+      );
     } on FirebaseAuthException catch (e){
       if(e.code == 'user-not-found'){
-        print('Esse email não foi encontrado.');
-        return null;
+        print('Esse email não foi encontrado ao tentar realizar login');
       }else if(e.code == 'wrong-password'){
         print('Senha incorreta, tente novamente!');
-        return null;
       }
     }
   }

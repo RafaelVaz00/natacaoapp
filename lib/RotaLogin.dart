@@ -3,13 +3,12 @@ import 'package:natacaoapp/controller/AdministradorController.dart';
 import 'package:natacaoapp/view/shared/layouts/Home.dart';
 import 'package:natacaoapp/controller/LoginController.dart';
 import 'package:email_validator/email_validator.dart';
-
 import 'model/Usuario.dart';
 
 LoginController loginController = new LoginController();
 
 class RotaLogin extends StatelessWidget {
-  const RotaLogin({super.key});
+  const RotaLogin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +60,7 @@ class RotaLogin extends StatelessWidget {
 }
 
 class FormularioLogin extends StatefulWidget {
-  const FormularioLogin({super.key});
+  const FormularioLogin({Key? key}) : super(key: key);
 
   @override
   FormularioLoginState createState() {
@@ -145,43 +144,25 @@ class FormularioLoginState extends State<FormularioLogin> {
                       duration: Duration(seconds: 2),
                     ),
                   );
-
-                  // A lógica funciona da seguinte maneira, primeiro irá verificar se existe algum usuario
-                  // na collection de pré cadastro com os campos email e senha, e se está com a flag de primeiro
-                  // acesso marcada, caso exista registro nessas condições, a lógica irá proceder com o cadastro
-                  // do usuario com aqueles dados encontrados de email e senha no firebase authentication, após isso
-                  // o usuario é autenticado, e é feito uma nova verificação, fazendo com que os registros do pré cadastro
-                  // sejam copiados para o documento de usuario de fato, e é feito a deleção do pré cadastro para economizar
-                  // espaço.
-
-                  Usuario? usuarioPrimeiroAcesso = await loginController.verificarFlagPA(emailLogin.text, senhaLogin.text);
-
-                  if(usuarioPrimeiroAcesso?.flagPA==true){
-                    AdministradorController administradorController = new AdministradorController();
-
-                    administradorController.cadastrarUsuarioEmailSenha(emailLogin.text, senhaLogin.text);
-                    loginController.realizarLogin(emailLogin.text, senhaLogin.text);
-                    administradorController.criarDocumentoUsuarioPrimeiroAcesso(usuarioPrimeiroAcesso);
-
-
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                          (Route<dynamic> route) => false,
-                    );
-                  } else{
-                    loginController.realizarLogin(emailLogin.text, senhaLogin.text);
-
-
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Home()),
-                          (Route<dynamic> route) => false,
-                    );
                   }
 
-                }
-              },
+                  Usuario? usuarioPrimeiroAcesso = await loginController.verificarFlagPA
+                    (emailLogin.text, senhaLogin.text);
+
+                  if (usuarioPrimeiroAcesso?.flagPA == true) {
+                    AdministradorController administradorController = new AdministradorController();
+
+                    administradorController.cadastrarUsuarioEmailSenha(
+                        emailLogin.text, senhaLogin.text);
+                    loginController.realizarLogin(
+                        emailLogin.text, senhaLogin.text, context);
+                    administradorController.criarDocumentoUsuarioPrimeiroAcesso(
+                        usuarioPrimeiroAcesso);
+                  }else {
+                    loginController.realizarLogin(
+                        emailLogin.text, senhaLogin.text, context);
+                  }
+                  },
               child: Text(
                 'Entrar',
                 style: TextStyle(fontSize: 18),
@@ -195,7 +176,7 @@ class FormularioLoginState extends State<FormularioLogin> {
 }
 
 class RotaRecuperacaoSenha extends StatefulWidget {
-  const RotaRecuperacaoSenha({super.key});
+  const RotaRecuperacaoSenha({Key? key}) : super(key: key);
 
   @override
   RotaRecuperacaoSenhaState createState() {

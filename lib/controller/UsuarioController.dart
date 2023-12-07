@@ -13,12 +13,6 @@ class UsuarioController {
   var db = FirebaseFirestore.instance;
   }
 
-  void iniciarFireBase() async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
-
   void verificarAutenticacao() async{
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if(user == null){
@@ -34,8 +28,6 @@ class UsuarioController {
 
 
   Future<String?> obterUserID() async{
-
-    verificarAutenticacao();
 
     if(FirebaseAuth.instance.currentUser != null){
       // return FirebaseAuth.instance.currentUser?.uid.toString(); antigo
