@@ -87,7 +87,8 @@ class AdministradorController {
       "tipoConta": tipoConta,
       "statusConta": "ATIVA",
       "senha": senha,
-      "flagPA": true
+      "flagPA": true,
+      "verificado" : false
     };
 
     iniciarFireStore().collection("preCadastro")

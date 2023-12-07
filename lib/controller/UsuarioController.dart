@@ -9,8 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UsuarioController {
 
-  void iniciarFireStore(){
-  var db = FirebaseFirestore.instance;
+  FirebaseFirestore iniciarFireStore(){
+    return FirebaseFirestore.instance;
   }
 
   void verificarAutenticacao() async{
@@ -26,6 +26,28 @@ class UsuarioController {
     await FirebaseAuth.instance.signOut();
   }
 
+  Future<void> enviarRecuperacaoSenha(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print('Erro ao enviar o email de recuperação de senha: $e');
+    }
+  }
+
+  Future<void> trocarEmail(String novoEmail) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.updateEmail(novoEmail);
+
+        print('E-mail atualizado para $novoEmail');
+      } else {
+        print('Usuário não autenticado');
+      }
+    } catch (e) {
+      print('Erro ao atualizar o e-mail: $e');
+    }
+  }
 
   Future<String?> obterUserID() async{
 

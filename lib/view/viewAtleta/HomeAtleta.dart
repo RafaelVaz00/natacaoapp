@@ -12,9 +12,6 @@ class HomeAtleta extends StatefulWidget {
 }
 class _HomeAtletaState extends State<HomeAtleta> {
 
-
-
-
   @override
   Widget build(BuildContext context) {
    return Container(
