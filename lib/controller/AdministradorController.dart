@@ -64,8 +64,8 @@ class AdministradorController {
         // Referência ao documento na coleção "usuarios" com o UID como nome e seta os dados do pré cadastro
         DocumentReference userDocumentRef = firestore.collection('usuarios').doc(uid);
         userDocumentRef.set(dados!);
-        // FirebaseFirestore.instance.collection('usuarios').doc(uid).set(data)
-        
+
+        userDocumentRef.update({'flagPA': false});
 
         //deleta o documento de pré cadastro
         await firestore.collection('preCadastro').doc(usuario?.idDocumento).delete();
@@ -95,10 +95,14 @@ class AdministradorController {
 
   }
 
-  void completarCadastro(String nome, String nascimento,String naturalidade,
+
+  void completarCadastro(String idDocumento, String nome, String nascimento,String naturalidade,
       String nacionalidade, String rg, String cpf, String sexo, String endereco, String bairro,
       String cidade, String uf, String cep, String maeAtleta, String paiAtleta, String clubeOrigem,
-      String empresa, String convenio, String alergias, String provas)async{
+      String empresa, String convenio, String alergias, String provas, String telefoneCelular,
+      String telefoneResidencial, String  telefoneTrabalho, String  telefoneEmergencia,
+      String telefonePai, String telefoneMae
+      )async{
     iniciarFireStore();
     final user = <String, dynamic>{
       "nome":nome,
@@ -119,11 +123,20 @@ class AdministradorController {
       "emp_trabalha_atleta":empresa,
       "cvm_atleta":convenio,
       "alg_atleta":alergias,
-      "prv_atleta":provas
+      "prv_atleta":provas,
+      "telefoneCelular": telefoneCelular,
+      "telefoneResidencial": telefoneResidencial,
+      "telefoneTrabalho": telefoneTrabalho,
+      "telefoneEmergencia": telefoneEmergencia,
+      "telefonePai" : telefonePai,
+      "telefoneMae": telefoneMae,
+      "verificado" : true
     };
 
-    iniciarFireStore().collection("usuarios")
-        .add(user).then((DocumentReference doc) => print('a conta foi criada'));
+    await iniciarFireStore()
+        .collection("preCadastro")
+        .doc(idDocumento)
+        .update(user);
   }
 
   Future<String?> obterUserID() async{

@@ -92,7 +92,7 @@ class _PerfilAtletaState extends State<PerfilAtleta> {
               onTap: (){
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const PerfilUploadArquivos())
+                    MaterialPageRoute(builder: (context) => PerfilUploadArquivos())
                 );
               },
               child: Card(

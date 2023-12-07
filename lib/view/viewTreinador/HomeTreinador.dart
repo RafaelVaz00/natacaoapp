@@ -99,43 +99,6 @@ class _HomeTreinadorState extends State<HomeTreinador> {
                     elevation: 1,
                   ),
                 ),
-                InkWell(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CriarContaTreinador()),
-                    );
-                  },
-
-                  child: Card(
-                    margin: EdgeInsets.only(top: 25),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Wrap(
-                                alignment: WrapAlignment.start,
-                                runSpacing: 8,
-                                children: [
-                                  Text(
-                                    'Criar uma Conta',
-                                    style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                  ),
-                                  Text(
-                                    'Crie uma conta com um perfil de Atleta, Treinador ou administrador',
-                                    style: TextStyle( fontSize: 12),
-                                    softWrap: true,
-                                    overflow: TextOverflow.clip,
-                                  )
-                                ],
-                              )),
-                        ],
-                      ),
-                    ),
-                    elevation: 1,
-                  ),
-                ),
               ],
             ),
           ),

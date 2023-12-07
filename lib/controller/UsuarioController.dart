@@ -46,12 +46,12 @@ class UsuarioController {
 
   Future<String?> obterNomeUsuario() async{
 
-    final String? collectionId = await obterUserID();
+    // final String? collectionId = await obterUserID();
 
       try{
         DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
             .collection('usuarios')
-            .doc(collectionId)
+            .doc(FirebaseAuth.instance.currentUser!.uid.toString())
             .get();
 
         if(documentSnapshot.exists){
@@ -59,7 +59,7 @@ class UsuarioController {
 
           return nomeUsuario;
         } else {
-          print('Documento não encontrado');
+          print('Documento não encontrado no usuario controller');
           return null;
         }
       } catch (e){
@@ -70,12 +70,12 @@ class UsuarioController {
 
   Future<String?> obterTipoConta() async{
 
-    final String? collectionId = await obterUserID();
+    // final String? collectionId = await obterUserID();
 
     try{
       DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
           .collection('usuarios')
-          .doc(collectionId)
+          .doc(FirebaseAuth.instance.currentUser!.uid.toString())
           .get();
 
       if(documentSnapshot.exists){
@@ -83,7 +83,7 @@ class UsuarioController {
 
         return tipoConta;
       } else {
-        print('Documento não encontrado');
+        print('tipo conta não encontrado');
         return null;
       }
     } catch (e){

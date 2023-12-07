@@ -1,104 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/controller/AdministradorController.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../model/Atleta.dart';
-import '../../model/Usuario.dart';
+import 'CriarContaTreinador.dart';
 
-class ListaContas extends StatefulWidget{
-  final List<Atleta> atletas;
-
-  ListaContas({required this.atletas});
-
-  @override
-  _ListaContasState createState() => _ListaContasState();
-}
-
-class _ListaContasState extends State<ListaContas> {
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: widget.atletas.length,
-      itemBuilder: (context, index) {
-        Atleta atleta = widget.atletas[index];
-        return Card(
-          child: ListTile(
-          // enabled: _enabled,
-          // selected: _selected,
-          title: Text(atleta.nome),
-          onTap: () {
-            // setState(() {
-            //   _selected = !_selected;
-            // });
-          },
-          leading: const Icon(Icons.person),
-        ),
-        );
-
-      },
-    );
-  }
-}
-
-class VisualizarContasTreinador extends StatefulWidget {
-  const VisualizarContasTreinador({super.key});
-
-  @override
-  State<VisualizarContasTreinador> createState() => _VisualizarContasTreinadorState();
-}
-
-class _VisualizarContasTreinadorState extends State<VisualizarContasTreinador> {
-
-  AdministradorController administradorController = new AdministradorController();
-
-  late Future<List<Atleta>> _atletas;
-
-  @override
-  void initState(){
-    super.initState();
-    _atletas = administradorController.obterListaAtletas();
-    print(_atletas);
-  }
-
+class VisualizarContasTreinador extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contas')),
-        body: Container(
-          color: Color(0xFFFEEEEE),
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(5, 60 , 5 , 10),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Lista de atletas',
-                    style: TextStyle(fontSize: 32, ),
-                  ),
-                  FutureBuilder<List<Atleta>>(
-                      future: _atletas,
-                      builder: (context, snapshot){
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text('Erro: ${snapshot.error}');
-                        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return Text('Nenhum usuário encontrado.');
-                        } else {
-                          return Container(
-                            constraints: BoxConstraints(maxHeight: 450),
-                            child: ListaContas(atletas: snapshot.data!),
-                          );
-                        }
-                      },
-                  )
-                ],
-              ),
-            ),
+      appBar: AppBar(
+        title: Text('Contas Pré Cadastradas'),
+      ),
+      body: SingleChildScrollView(
+        child: _buildPreCadastroList(context),
+      ),
+    );
+  }
+
+  Widget _buildPreCadastroList(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: Text(
+            'Pré Cadastro',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
+        FutureBuilder<QuerySnapshot>(
+          future: FirebaseFirestore.instance.collection('preCadastro').get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
+            } else if (snapshot.hasError) {
+              return Text('Erro: ${snapshot.error}');
+            } else {
+              return Column(
+                children: snapshot.data!.docs
+                    .where((document) => document['verificado'] == false)
+                    .map((document) {
+                  final email = document['email'];
+                  final tipoConta = document['tipoConta'];
+                  return Card(
+                    child: ListTile(
+                      title: Text('Email: $email'),
+                      subtitle: Text('Tipo de Conta: $tipoConta'),
+                      trailing: ElevatedButton(
+                        onPressed: () {
+                          _finalizarCadastro(context, document.id);
+                        },
+                        child: Text('Finalizar Cadastro'),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  void _finalizarCadastro(BuildContext context, String documentId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CriarContaTreinador(documentId: documentId)),
     );
   }
 }

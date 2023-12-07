@@ -27,15 +27,25 @@ class _NavigationState extends State<Navigation> {
   int paginaAtual = 0;
 
   Future<String?> _obterNomeUsuario() async {
-    String? nomeUsuario =  await usuarioController.obterNomeUsuario();
+    String? uid = await usuarioController.obterUserID();
 
-    return nomeUsuario ?? "Aguarde...";
+    if (uid != null) {
+      String? nomeUsuario = await usuarioController.obterNomeUsuario();
+      return nomeUsuario;
+    }
+    return null;
   }
 
   Future<String?> _obterTipoConta() async {
-    String? tipoConta =  await usuarioController.obterTipoConta() ;
 
-    return tipoConta  ?? "Aguarde...";
+    String? uid = await usuarioController.obterUserID();
+
+    if (uid != null) {
+      String? tipoConta = await usuarioController.obterTipoConta();
+      return tipoConta;
+    }
+    return null;
+
   }
 
   @override

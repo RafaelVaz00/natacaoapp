@@ -29,6 +29,7 @@ dependencies:
   path_provider: '2.0.15'
   lecle_downloads_path_provider: ^0.0.2+8
   cached_network_image: ^3.2.0
+  firebase_app_check: ^0.2.1+6
 
 dev_dependencies:
   flutter_test:

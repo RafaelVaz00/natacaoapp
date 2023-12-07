@@ -4,7 +4,10 @@ import 'package:natacaoapp/view/shared/layouts/Home.dart';
 import '../../controller/AdministradorController.dart';
 
 class CriarContaTreinador extends StatefulWidget {
-  const CriarContaTreinador({Key? key}) : super(key: key);
+  final String documentId;
+
+  const CriarContaTreinador({Key? key, required this.documentId})
+      : super(key: key);
 
   @override
   State<CriarContaTreinador> createState() => _CriarContaTreinadorState();
@@ -33,6 +36,31 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
   TextEditingController convenioMedicoController = TextEditingController();
   TextEditingController alergiController = TextEditingController();
   TextEditingController estilosController = TextEditingController();
+  TextEditingController telefoneCelularController = TextEditingController();
+  TextEditingController telefoneResidencialController = TextEditingController();
+  TextEditingController telefoneTrabalhoController = TextEditingController();
+  TextEditingController telefoneEmergenciaController = TextEditingController();
+  TextEditingController telefonePaiController = TextEditingController();
+  TextEditingController telefoneMaeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // _loadPreCadastroData();
+  }
+
+  // void _loadPreCadastroData() async {
+  //   Map<String, dynamic>? preCadastroData =
+  //   await administradorController.getPreCadastroData(widget.documentId);
+  //
+  //   if (preCadastroData != null) {
+  //     setState(() {
+  //       nomeController.text = preCadastroData['nome'] ?? '';
+  //       dataNascimentoController.text = preCadastroData['dataNascimento'] ?? '';
+  //       // Continue para os demais campos...
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -347,6 +375,7 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                     //   return null;
                     // },
                   ),
+
                   SizedBox(height: 20),
                   TextFormField(
                     controller: convenioMedicoController,
@@ -396,6 +425,79 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       return null;
                     },
                   ),
+
+                  TextFormField(
+                    controller: telefoneCelularController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone Celular*',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Telefone Celular é obrigatório!";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: telefoneResidencialController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone Residencial',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: telefoneTrabalhoController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone Trabalho',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: telefoneEmergenciaController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone de Emergência*',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Telefone de Emergência é obrigatório!";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: telefonePaiController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone do Pai',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    controller: telefoneMaeController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Telefone da Mãe',
+                      fillColor: Color(0xFFFFFFFF),
+                      filled: true,
+                    ),
+                  ),
+                  // Continue para os demais campos...
                   SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -403,31 +505,7 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       primary: Color(0xFFF24444),
                     ),
                     onPressed: () {
-                      administradorController.completarCadastro(
-                        nomeController.text,
-                        dataNascimentoController.text,
-                        naturalidadeController.text,
-                        nacionalidadeController.text,
-                        rgController.text,
-                        cpfController.text,
-                        sexoController.text,
-                        enderecoController.text,
-                        bairroController.text,
-                        cidadeController.text,
-                        ufController.text,
-                        cepController.text,
-                        nomeMaeController.text,
-                        nomePaiController.text,
-                        cbOrigemController.text,
-                        localTrabalhoController.text,
-                        convenioMedicoController.text,
-                        alergiController.text,
-                        estilosController.text,
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => Home()),
-                      );
+                      _completarCadastro();
                     },
                     child: Text(
                       'Criar conta',
@@ -440,6 +518,53 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
           ),
         ),
       ),
+    );
+  }
+
+  void _completarCadastro() async {
+    // Coleta os dados dos controllers
+    String telefoneCelular = telefoneCelularController.text;
+    String telefoneResidencial = telefoneResidencialController.text;
+    String telefoneTrabalho = telefoneTrabalhoController.text;
+    String telefoneEmergencia = telefoneEmergenciaController.text;
+    String telefonePai = telefonePaiController.text;
+    String telefoneMae = telefoneMaeController.text;
+    // Continue para os demais campos...
+
+    // Chama o método para completar o cadastro
+    administradorController.completarCadastro(
+      widget.documentId,
+      nomeController.text,
+      dataNascimentoController.text,
+      naturalidadeController.text,
+      nacionalidadeController.text,
+      rgController.text,
+      cpfController.text,
+      sexoController.text,
+      enderecoController.text,
+      bairroController.text,
+      cidadeController.text,
+      ufController.text,
+      cepController.text,
+      nomeMaeController.text,
+      nomePaiController.text,
+      cbOrigemController.text,
+      localTrabalhoController.text,
+      convenioMedicoController.text,
+      alergiController.text,
+      estilosController.text,
+      telefoneCelular,
+      telefoneResidencial,
+      telefoneTrabalho,
+      telefoneEmergencia,
+      telefonePai,
+      telefoneMae,
+
+    );
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Home()),
     );
   }
 }
