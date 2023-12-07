@@ -82,8 +82,8 @@ class AdministradorController {
   void cadastroUsuario(String nome, String email, String tipoConta, String senha)async {
     iniciarFireStore();
     final user = <String, dynamic>{
-      "nom_atleta": nome,
-      "email_atleta": email,
+      "nome": nome,
+      "email": email,
       "tipoConta": tipoConta,
       "statusConta": "ATIVA",
       "senha": senha,

@@ -31,7 +31,7 @@ class _HomeAdmState extends State<HomeAdm> {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const VisualizarContasAdm())
+                      MaterialPageRoute(builder: (context) => VisualizarContasAdm())
                   );
                 },
                 child: Card(

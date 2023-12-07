@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:natacaoapp/controller/UsuarioController.dart';
-
 import '../../main.dart';
 
 class MenuPerfilAdm extends StatefulWidget {
@@ -10,10 +9,7 @@ class MenuPerfilAdm extends StatefulWidget {
   State<MenuPerfilAdm> createState() => _MenuPerfilAdmState();
 }
 
-
-
 class _MenuPerfilAdmState extends State<MenuPerfilAdm> {
-
   UsuarioController usuarioController = new UsuarioController();
 
   @override
@@ -29,74 +25,61 @@ class _MenuPerfilAdmState extends State<MenuPerfilAdm> {
             children: [
               Text(
                 'Perfil',
-                style: TextStyle(fontSize: 32, ),
+                style: TextStyle(fontSize: 32),
               ),
-              InkWell(
-                child: Card(
-                  margin: EdgeInsets.only(top: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Expanded(
+              Expanded(
+                child: InkWell(
+                  child: Card(
+                    margin: EdgeInsets.only(top: 25),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          Expanded(
                             child: Wrap(
                               alignment: WrapAlignment.start,
                               runSpacing: 8,
                               children: [
                                 Text(
                                   'Dados Pessoais',
-                                  style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 20),
                                 ),
                                 Text(
                                   'Atualize seus dados como nome, email, dentre outros.',
-                                  style: TextStyle( fontSize: 12),
+                                  style: TextStyle(fontSize: 12),
                                   softWrap: true,
                                   overflow: TextOverflow.clip,
                                 )
                               ],
-                            )),
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    elevation: 1,
                   ),
-                  elevation: 1,
                 ),
               ),
-              InkWell(
-                onTap:() {
+              SizedBox(height: 16), // Espaçamento entre os cards e o botão
+
+              // Botão para Sair da Conta
+              FloatingActionButton(
+                onPressed: () {
+                  // Desautentica o usuário no Firebase
                   usuarioController.desconectarUsuarioAtual();
-                  // Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) =>const rotaLogin());
-                  // );
+
+                  // Remove todas as rotas da pilha e adiciona a rota de login
+                  Navigator.popUntil(context, (route) => route.isFirst);
+
+                  // Navega para a tela de login
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RotaLogin()),
+                  );
                 },
-                child: Card(
-                  margin: EdgeInsets.only(top: 25),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Wrap(
-                              alignment: WrapAlignment.start,
-                              runSpacing: 8,
-                              children: [
-                                Text(
-                                  'Sair da Conta',
-                                  style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
-                                ),
-                                Text(
-                                  'Desconecte-se da sua conta atual.',
-                                  style: TextStyle( fontSize: 12),
-                                  softWrap: true,
-                                  overflow: TextOverflow.clip,
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                  elevation: 1,
-                ),
+                child: Icon(Icons.exit_to_app),
+                backgroundColor: Colors.red,
               ),
             ],
           ),
@@ -105,3 +88,4 @@ class _MenuPerfilAdmState extends State<MenuPerfilAdm> {
     );
   }
 }
+

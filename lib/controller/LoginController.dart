@@ -28,6 +28,7 @@ class LoginController {
   }
 
   Future<void> realizarLogin(String email, String password) async {
+    // await FirebaseAuth.instance.signOut(); // Necessário pois no emulador a instancia fica cacheada quando reinicia o debug
     try{
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
@@ -37,8 +38,10 @@ class LoginController {
     } on FirebaseAuthException catch (e){
       if(e.code == 'user-not-found'){
         print('Esse email não foi encontrado.');
+        return null;
       }else if(e.code == 'wrong-password'){
         print('Senha incorreta, tente novamente!');
+        return null;
       }
     }
   }
@@ -48,7 +51,7 @@ class LoginController {
     try {
       QuerySnapshot querySnapshot = await firestore
           .collection('preCadastro')
-          .where('email_atleta', isEqualTo: email)
+          .where('email', isEqualTo: email)
           .where('senha', isEqualTo: senha)
           .limit(1)
           .get();
@@ -57,14 +60,16 @@ class LoginController {
         var documento = querySnapshot.docs.first;
         // Retorna o valor da flagPA se o usuário for encontrado.
         return Usuario(
-          email_atleta: documento['email_atleta'],
+          email_atleta: documento['email'],
           flagPA: documento['flagPA'],
           nome: documento['nome'],
           senha: documento['senha'],
           tipoConta: documento['tipoConta'],
-          idDocumento: documento.id, );
+          idDocumento: documento.id,
+        );
       } else {
         // Retorna null se o usuário não for encontrado.
+
         return null;
       }
     } catch (e) {

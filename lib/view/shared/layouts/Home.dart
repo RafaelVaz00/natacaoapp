@@ -29,13 +29,13 @@ class _NavigationState extends State<Navigation> {
   Future<String?> _obterNomeUsuario() async {
     String? nomeUsuario =  await usuarioController.obterNomeUsuario();
 
-    return nomeUsuario ?? "";
+    return nomeUsuario ?? "Aguarde...";
   }
 
   Future<String?> _obterTipoConta() async {
     String? tipoConta =  await usuarioController.obterTipoConta() ;
 
-    return tipoConta  ?? "";
+    return tipoConta  ?? "Aguarde...";
   }
 
   @override
