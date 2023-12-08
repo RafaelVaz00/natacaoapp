@@ -63,7 +63,7 @@ class AdministradorController {
         DocumentReference userDocumentRef = firestore.collection('usuarios').doc(userID);
         userDocumentRef.set(dados!);
 
-        userDocumentRef.update({'flagPA': false, 'idDocumento': userID});
+        userDocumentRef.update({'flagPA': false, 'idDocumento': userID, 'verificado': true});
 
         //deleta o documento de pré cadastro
         await firestore.collection('preCadastro').doc(usuario?.idDocumento).delete();

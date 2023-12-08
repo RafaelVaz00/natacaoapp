@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class AtletaCronometro extends StatefulWidget {
   final String treinoId;
@@ -26,6 +26,8 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
   bool iniciado = false;
 
   List<String> voltas = [];
+  List<double> temposVoltas = [];
+  List<double> temposDasVoltas = [];
 
   bool avaliacaoSalva = false;
 
@@ -89,7 +91,15 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
                               color: Colors.white,
                               fontSize: 16,
                             ),
-                          )
+                          ),
+                          if (index > 0)
+                            Text(
+                              "+${_formatarTempoVolta(temposVoltas[index - 1])}",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
                         ],
                       ),
                     );
@@ -149,6 +159,12 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
         ),
       ),
     );
+  }
+
+  String _formatarTempoVolta(double tempoVolta) {
+    String minutosStr = (tempoVolta ~/ 60).toString().padLeft(2, '0');
+    String segundosStr = (tempoVolta % 60).toString().padLeft(2, '0');
+    return "$minutosStr:$segundosStr";
   }
 
   void _mostrarDialogBatimentosIniciais() {
@@ -233,7 +249,89 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
     String volta = _formatarTempo();
     setState(() {
       voltas.add(volta);
+
+      if (voltas.length > 1) {
+        // Calcular e armazenar o tempo da volta em relação à anterior
+        String tempoAnterior = voltas[voltas.length - 2];
+        double tempoVolta = _calcularDiferencaTempo(volta, tempoAnterior);
+        temposVoltas.add(tempoVolta);
+        temposDasVoltas.add(tempoVolta);
+
+        // Calcular a média dos tempos das voltas
+        double media = _calcularMediaTempos(temposVoltas);
+
+        // Filtrar os tempos abaixo da média (até 80% da média)
+        List<double> temposAbaixoMedia = temposVoltas
+            .where((tempo) => tempo <= 0.8 * media)
+            .toList();
+
+        // Filtrar os tempos acima da média (até 120% da média)
+        List<double> temposAcimaMedia = temposVoltas
+            .where((tempo) => tempo >= 1.2 * media)
+            .toList();
+
+        // Registrar os valores na collection 'avaliacao'
+        _registrarValoresAvaliacao(
+          media,
+          temposAbaixoMedia,
+          temposAcimaMedia,
+          temposDasVoltas,
+        );
+      }
     });
+  }
+
+  double _calcularDiferencaTempo(String tempoAtual, String tempoAnterior) {
+    DateTime atual = DateTime.parse("2023-01-01 $tempoAtual");
+    DateTime anterior = DateTime.parse("2023-01-01 $tempoAnterior");
+    Duration diferenca = atual.difference(anterior);
+    return diferenca.inMilliseconds / 1000.0;
+  }
+
+  double _calcularMediaTempos(List<double> tempos) {
+    if (tempos.isEmpty) return 0.0;
+    double soma = tempos.reduce((value, element) => value + element);
+    return soma / tempos.length;
+  }
+
+  void _registrarValoresAvaliacao(
+      double media,
+      List<double> temposAbaixo,
+      List<double> temposAcima,
+      List<double> temposDasVoltas) async {
+    if (widget.treinoId == null || widget.atletaId == null) {
+      return;
+    }
+
+    CollectionReference avaliacaoCollection =
+    FirebaseFirestore.instance.collection('avaliacao');
+
+    DocumentReference avaliacaoRef = avaliacaoCollection.doc();
+
+    await avaliacaoRef.set({
+      'treinoId': widget.treinoId,
+      'atletaId': widget.atletaId,
+      'dataTreino': widget.data,
+      'media': media,
+      'temposAbaixoMedia': temposAbaixo,
+      'temposAcimaMedia': temposAcima,
+      'voltas': voltas,
+      'temposDasVoltas': temposDasVoltas,
+      'batimentosIniciais': int.parse(batimentosIniciaisController.text),
+      'batimentosFinais': int.parse(batimentosFinaisController.text),
+      'dataAvaliacao': FieldValue.serverTimestamp(),
+    });
+
+    if (widget.onAvaliacaoSalva != null) {
+      widget.onAvaliacaoSalva!();
+    }
+
+    setState(() {
+      avaliacaoSalva = true;
+    });
+
+    // Fechar o modal
+    Navigator.pop(context);
   }
 
   void _pausar() {
@@ -252,6 +350,8 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
       horas = 0;
       iniciado = false;
       voltas.clear();
+      temposVoltas.clear();
+      temposDasVoltas.clear();
     });
   }
 
@@ -270,56 +370,42 @@ class _AtletaCronometroState extends State<AtletaCronometro> {
     if (widget.treinoId == null || widget.atletaId == null) {
       return;
     } else {
+      DocumentReference avaliacaoRef =
+      FirebaseFirestore.instance.collection('avaliacao').doc();
+      DocumentSnapshot avaliacaoSnapshot = await avaliacaoRef.get();
 
-    // Obtém o documento de avaliação ou cria um novo
-    DocumentReference avaliacaoRef = FirebaseFirestore.instance
-        .collection('avaliacao')
-        .doc();
-    DocumentSnapshot avaliacaoSnapshot = await avaliacaoRef.get();
+      Map<String, dynamic> avaliacaoData = {
+        'treinoId': widget.treinoId,
+        'atletaId': widget.atletaId,
+        'voltas': voltas,
+        'temposDasVoltas': temposDasVoltas,
+        'batimentosIniciais': int.parse(batimentosIniciais),
+        'batimentosFinais': int.parse(batimentosFinais),
+        'dataTreino': widget.data,
+        'dataAvaliacao': FieldValue.serverTimestamp(),
+      };
 
-    Map<String, dynamic> avaliacaoData = {
-      'treinoId': widget.treinoId,
-      'atletaId': widget.atletaId,
-      'voltas': voltas,
-      'batimentosIniciais': int.parse(batimentosIniciais),
-      'batimentosFinais': int.parse(batimentosFinais),
-      'dataTreino': widget.data,
-      'dataAvaliacao': FieldValue.serverTimestamp(),
-    };
+      if (avaliacaoSnapshot.exists) {
+        await avaliacaoRef.update(avaliacaoData);
+      } else {
+        await avaliacaoRef.set(avaliacaoData);
+      }
 
-    if (avaliacaoSnapshot.exists) {
-      // Atualiza a avaliação existente
-      await avaliacaoRef.update(avaliacaoData);
-    } else {
-      // Cria uma nova avaliação
-      await avaliacaoRef.set(avaliacaoData);
+      if (widget.onAvaliacaoSalva != null) {
+        widget.onAvaliacaoSalva!();
+      }
     }
 
-    if (widget.onAvaliacaoSalva != null) {
-      widget.onAvaliacaoSalva!();
-    }
-  }
-
-    // Atualizar o estado para indicar que a avaliação foi salva
     setState(() {
       avaliacaoSalva = true;
     });
 
-    // Chamar a função de callback se fornecida
     if (widget.onAvaliacaoSalva != null) {
       widget.onAvaliacaoSalva!();
     }
 
     // Fechar o modal
     Navigator.pop(context);
-
-    // await FirebaseFirestore.instance
-    //     .collection('usuarios')
-    //     .doc(widget.atletaId)
-    //     .collection('treinos')
-    //     .doc(widget.treinoId)
-    //     .set({'avaliacaoSalva': true}, SetOptions(merge: true));
-
   }
 
   @override

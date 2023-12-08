@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:natacaoapp/model/Usuario.dart';
-import '../view/shared/layouts/Home.dart';
-import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:natacaoapp/model/Usuario.dart';
+
+import '../view/shared/layouts/Home.dart';
 
 
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/viewTreinador/CriarContaTreinador.dart';
 import 'package:natacaoapp/view/viewTreinador/TreinadorRegistroTreino.dart';
 import 'package:natacaoapp/view/viewTreinador/VisualizarContasTreinador.dart';
 

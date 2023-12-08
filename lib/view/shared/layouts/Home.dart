@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:natacaoapp/view/shared/layouts/BarraSuperiorLayout.dart';
-import 'package:natacaoapp/view/shared/layouts/BarraDeNavegacao.dart';
 import 'package:natacaoapp/controller/UsuarioController.dart';
+import 'package:natacaoapp/view/shared/layouts/BarraDeNavegacao.dart';
+import 'package:natacaoapp/view/shared/layouts/BarraSuperiorLayout.dart';
 
 UsuarioController usuarioController = new UsuarioController();
 
