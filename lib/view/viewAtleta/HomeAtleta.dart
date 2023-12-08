@@ -45,11 +45,11 @@ class _HomeAtletaState extends State<HomeAtleta> {
                                 runSpacing: 8,
                                 children: [
                                   Text(
-                                    'Ver Treinos ',
+                                    'Ver minhas avaliações ',
                                     style: TextStyle( fontWeight: FontWeight.bold, fontSize: 20),
                                   ),
                                   Text(
-                                    'Veja a lista de todos os seus últimos treinos para verificar seu desempenho.',
+                                    'Veja a lista de todos as ultimas avaliações feitas nos seus treinos para acompanhar seu desempenho.',
                                     style: TextStyle( fontSize: 12),
                                     softWrap: true,
                                     overflow: TextOverflow.clip,

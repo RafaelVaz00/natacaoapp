@@ -195,9 +195,20 @@ class RotaRecuperacaoSenhaState extends State<RotaRecuperacaoSenha> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white, // Cor branca da AppBar
+          automaticallyImplyLeading: true, // Mostra automaticamente o botão de voltar
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black), // Ícone de voltar em preto
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
         body: SingleChildScrollView(
           child: Material(
             color: Colors.white,
@@ -243,25 +254,9 @@ class RotaRecuperacaoSenhaState extends State<RotaRecuperacaoSenha> {
                       ),
                       onPressed: () {
                         if (_formKeyRS.currentState!.validate()) {
-                          //email sendo enviado, porém há falhas as vezes, e a tela não volta após o sucesso.
-                          try {
-                            if (loginController.enviarEmailRedefinicaoSenha(
-                                emailRecuperacao.text) ==
-                                true) {
-                              Navigator.pop(context);
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('O envio falhou!'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
+                          loginController.enviarEmailRedefinicaoSenha(emailRecuperacao.text, this.context);
                             }
-                          } catch (e) {
-                            print(e);
-                          }
-                        }
-                      },
+                        },
                       child: Text(
                         'Recebe Email',
                         style: TextStyle(fontSize: 18),

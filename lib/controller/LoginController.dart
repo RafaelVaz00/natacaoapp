@@ -11,12 +11,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginController {
 
-  Future<void> enviarEmailRedefinicaoSenha(String email) async {
+  Future<void> enviarEmailRedefinicaoSenha(String email, BuildContext context) async {
 
     try{
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Verifique sua caixa de emails!'),
+      //     duration: Duration(seconds: 2),
+      //   ),
+      // );
+      Navigator.pop(context);
     } catch (e){
-      print(e);
+      // String erro = e.toString();
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //    SnackBar(
+      //     content: Text('O envio falhou! Erro: $erro'),
+      //     duration: Duration(seconds: 2),
+      //   ),
+      // );
+      Navigator.pop(context);
     }
   }
 

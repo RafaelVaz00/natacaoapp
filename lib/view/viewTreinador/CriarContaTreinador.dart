@@ -46,21 +46,8 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
   @override
   void initState() {
     super.initState();
-    // _loadPreCadastroData();
-  }
 
-  // void _loadPreCadastroData() async {
-  //   Map<String, dynamic>? preCadastroData =
-  //   await administradorController.getPreCadastroData(widget.documentId);
-  //
-  //   if (preCadastroData != null) {
-  //     setState(() {
-  //       nomeController.text = preCadastroData['nome'] ?? '';
-  //       dataNascimentoController.text = preCadastroData['dataNascimento'] ?? '';
-  //       // Continue para os demais campos...
-  //     });
-  //   }
-  // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -320,12 +307,6 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       fillColor: Color(0xFFFFFFFF),
                       filled: true,
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Nome é obrigatório!";
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -336,12 +317,6 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       fillColor: Color(0xFFFFFFFF),
                       filled: true,
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Nome é obrigatório!";
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -352,12 +327,6 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       fillColor: Color(0xFFFFFFFF),
                       filled: true,
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Nome é obrigatório!";
-                    //   }
-                    //   return null;
-                    // },
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -368,14 +337,7 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       fillColor: Color(0xFFFFFFFF),
                       filled: true,
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Nome é obrigatório!";
-                    //   }
-                    //   return null;
-                    // },
                   ),
-
                   SizedBox(height: 20),
                   TextFormField(
                     controller: convenioMedicoController,
@@ -401,13 +363,6 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
                       fillColor: Color(0xFFFFFFFF),
                       filled: true,
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return "Nome é obrigatório!";
-                    //   }
-                    //   // Adicione a validação específica conforme necessário.
-                    //   return null;
-                    // },
                   ),
                   SizedBox(height: 20),
                   TextFormField(
@@ -529,9 +484,7 @@ class _CriarContaTreinadorState extends State<CriarContaTreinador> {
     String telefoneEmergencia = telefoneEmergenciaController.text;
     String telefonePai = telefonePaiController.text;
     String telefoneMae = telefoneMaeController.text;
-    // Continue para os demais campos...
 
-    // Chama o método para completar o cadastro
     administradorController.completarCadastro(
       widget.documentId,
       nomeController.text,

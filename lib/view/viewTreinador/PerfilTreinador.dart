@@ -17,7 +17,7 @@ class _PerfilTreinadorState extends State<PerfilTreinador> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xFFEEF8FE),
+      color: Color(0xFFFEEEEE),
       alignment: Alignment.topLeft,
       child: Padding(
         padding: EdgeInsets.all(16.0),

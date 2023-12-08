@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 import '../../model/Avaliacao.dart'; // Certifique-se de importar corretamente o modelo Avaliacao
 
@@ -15,8 +17,13 @@ class VisualizarMeusTreinos extends StatelessWidget {
   }
 
   Widget _buildListaAvaliacoes(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('avaliacao').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('avaliacao')
+          .where('atletaId', isEqualTo: user?.uid) // Filtrar por atletaId igual ao UID do usuário atual
+          .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -47,7 +54,7 @@ class VisualizarMeusTreinos extends StatelessWidget {
               child: Card(
                 margin: EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
-                  title: Text('Data do Avaliação: ${avaliacoes[index].dataAvaliacao}'),
+                  title: Text('Data da Avaliação: ${DateFormat('dd/MM/yyyy').format(avaliacoes[index].dataAvaliacao.toLocal())}'),
                   subtitle: Text('Treino: ${avaliacoes[index].treinoId}'),
                 ),
               ),
@@ -68,7 +75,6 @@ class VisualizarMeusTreinos extends StatelessWidget {
             width: double.maxFinite,
             child: ListView(
               children: [
-                _buildDetalhe('Atleta', avaliacao.atletaId),
                 _buildDetalhe('Treino', avaliacao.treinoId),
                 _buildDetalhe('Batimentos Iniciais', avaliacao.batimentosIniciais.toString()),
                 _buildDetalhe('Batimentos Finais', avaliacao.batimentosFinais.toString()),

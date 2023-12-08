@@ -16,7 +16,7 @@ class _HomeAdmState extends State<HomeAdm> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Color(0xFFFEEEEE),
+        color: Color(0xFFf5ebe6),
         alignment: Alignment.topLeft,
         child: Padding(
           padding: EdgeInsets.all(16.0),

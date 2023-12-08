@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:natacaoapp/view/shared/layouts/RegistroTreinoExpanded.dart';
 
 import '../../model/Treino.dart';
@@ -149,7 +150,7 @@ class _TreinadorRegistroTreinoState extends State<TreinadorRegistroTreino> {
               child: Card(
                 margin: EdgeInsets.symmetric(vertical: 8.0),
                 child: ListTile(
-                  title: Text('Data: ${treinos[index].data.toLocal()}'),
+                  title: Text('Data: ${DateFormat('dd/MM/yyyy').format(treinos[index].data.toLocal())}'),
                   subtitle: Text('Descrição: ${treinos[index].descricao}'),
                 ),
               ),

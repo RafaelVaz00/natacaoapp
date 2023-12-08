@@ -54,18 +54,16 @@ class AdministradorController {
     DocumentSnapshot documentoOriginal = await firestore.collection('preCadastro').doc(usuario?.idDocumento).get();
     Map<String, dynamic>? dados = documentoOriginal.data() as Map<String, dynamic>?;
 
-
+    String userID = auth.currentUser!.uid;
 
     try {
-      User? user = auth.currentUser;
-      if (user != null) {
-        String uid = user.uid;
+      if (userID != null) {
 
         // Referência ao documento na coleção "usuarios" com o UID como nome e seta os dados do pré cadastro
-        DocumentReference userDocumentRef = firestore.collection('usuarios').doc(uid);
+        DocumentReference userDocumentRef = firestore.collection('usuarios').doc(userID);
         userDocumentRef.set(dados!);
 
-        userDocumentRef.update({'flagPA': false});
+        userDocumentRef.update({'flagPA': false, 'idDocumento': userID});
 
         //deleta o documento de pré cadastro
         await firestore.collection('preCadastro').doc(usuario?.idDocumento).delete();
@@ -131,7 +129,8 @@ class AdministradorController {
       "telefoneEmergencia": telefoneEmergencia,
       "telefonePai" : telefonePai,
       "telefoneMae": telefoneMae,
-      "verificado" : true
+      "verificado" : true,
+      "idDocumento": idDocumento
     };
 
     await iniciarFireStore()
